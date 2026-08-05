@@ -8,7 +8,7 @@ export class MembershipGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();
-    const user = request['user'];
+    const user = request['user'] as { sub: number; username: string; role?: string; tokenVersion?: number } | undefined;
 
     // If user context isn't present, assume AuthGuard should have run before
     if (!user || !user.username) return true;

@@ -1,5 +1,5 @@
 {
-  "name": "service-technician-finder-backend",
+  "name": "tutecnico-api",
   "version": "1.0.0",
   "description": "Backend for a service technician finder application.",
   "engines": {
