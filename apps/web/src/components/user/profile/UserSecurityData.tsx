@@ -27,12 +27,12 @@ const UserSecurityData = () => {
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <Shield className="w-4 h-4 text-blue-600" />
+                        <div className="w-8 h-8 bg-blue-900/50 rounded-lg flex items-center justify-center">
+                            <Shield className="w-4 h-4 text-blue-400" />
                         </div>
                         <div>
-                            <h3 className="text-lg font-semibold text-gray-900">Cambiar contraseña</h3>
-                            <p className="text-sm text-gray-600">Mantén tu cuenta segura con una contraseña fuerte</p>
+                            <h3 className="text-lg font-semibold text-white">Cambiar contraseña</h3>
+                            <p className="text-sm text-zinc-400">Mantén tu cuenta segura con una contraseña fuerte</p>
                         </div>
                     </div>
                     <Button
@@ -52,19 +52,19 @@ const UserSecurityData = () => {
             {/* Zona de peligro */}
             <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
-                        <AlertCircle className="w-4 h-4 text-red-600" />
+                    <div className="w-8 h-8 bg-red-900/50 rounded-lg flex items-center justify-center">
+                        <AlertCircle className="w-4 h-4 text-red-400" />
                     </div>
                     <div>
-                        <h3 className="text-lg font-semibold text-red-900">Zona de peligro</h3>
-                        <p className="text-sm text-red-700">Acciones irreversibles en tu cuenta</p>
+                        <h3 className="text-lg font-semibold text-red-400">Zona de peligro</h3>
+                        <p className="text-sm text-zinc-400">Acciones irreversibles en tu cuenta</p>
                     </div>
                 </div>
 
-                <Alert variant="destructive" className="border-red-200 bg-red-50">
+                <Alert variant="destructive" className="border-red-900/50 bg-red-950/30">
                     <AlertCircle className="h-4 w-4" />
-                    <AlertTitle className="text-red-800">Eliminar cuenta</AlertTitle>
-                    <AlertDescription className="text-red-700">
+                    <AlertTitle className="text-red-300">Eliminar cuenta</AlertTitle>
+                    <AlertDescription className="text-red-200/80">
                         Una vez que elimines tu cuenta, no hay vuelta atrás. Todos tus datos, reservas e historial se perderán permanentemente.
                     </AlertDescription>
                 </Alert>

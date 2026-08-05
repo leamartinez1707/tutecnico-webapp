@@ -19,14 +19,14 @@ const UserPersonalData = ({ isEditingPersonal, user, editedPersonal, setIsEditin
         <div className="space-y-6">
             {/* Header con botón */}
             <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-600">Información básica de tu perfil</p>
+                <p className="text-sm text-zinc-400">Información básica de tu perfil</p>
                 <div className="flex gap-2">
                     {!isEditingPersonal ? (
                         <Button 
                             variant="outline" 
                             size="sm" 
                             onClick={() => setIsEditingPersonal(true)}
-                            className="flex items-center gap-2"
+                            className="flex items-center gap-2 border-zinc-600 text-zinc-300 hover:bg-zinc-700 hover:text-white"
                         >
                             <Edit className="w-4 h-4" />
                             Editar
@@ -43,7 +43,7 @@ const UserPersonalData = ({ isEditingPersonal, user, editedPersonal, setIsEditin
                                     });
                                     setIsEditingPersonal(false);
                                 }}
-                                className="flex items-center gap-2"
+                                className="flex items-center gap-2 border-zinc-600 text-zinc-300 hover:bg-zinc-700 hover:text-white"
                             >
                                 <X className="w-4 h-4" />
                                 Cancelar
@@ -67,11 +67,11 @@ const UserPersonalData = ({ isEditingPersonal, user, editedPersonal, setIsEditin
                     <div className="space-y-4">
                         <div className="flex items-start gap-3">
                             <div className="mt-1">
-                                <User className="w-5 h-5 text-gray-600" />
+                                <User className="w-5 h-5 text-zinc-400" />
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-gray-500">Nombre completo</p>
-                                <p className="text-base text-gray-900 font-medium">
+                                <p className="text-sm font-medium text-zinc-500">Nombre completo</p>
+                                <p className="text-base text-white font-medium">
                                     {user?.firstName} {user?.lastName}
                                 </p>
                             </div>
@@ -79,11 +79,11 @@ const UserPersonalData = ({ isEditingPersonal, user, editedPersonal, setIsEditin
 
                         <div className="flex items-start gap-3">
                             <div className="mt-1">
-                                <AtSign className="w-5 h-5 text-gray-600" />
+                                <AtSign className="w-5 h-5 text-zinc-400" />
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-gray-500">Nombre de usuario</p>
-                                <p className="text-base text-gray-900">
+                                <p className="text-sm font-medium text-zinc-500">Nombre de usuario</p>
+                                <p className="text-base text-white">
                                     @{user?.username}
                                 </p>
                             </div>
@@ -93,11 +93,11 @@ const UserPersonalData = ({ isEditingPersonal, user, editedPersonal, setIsEditin
                     <div className="space-y-4">
                         <div className="flex items-start gap-3">
                             <div className="mt-1">
-                                <User className="w-5 h-5 text-gray-400" />
+                                <User className="w-5 h-5 text-zinc-500" />
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-gray-500">Estado de cuenta</p>
-                                <p className="text-base text-gray-900">
+                                <p className="text-sm font-medium text-zinc-500">Estado de cuenta</p>
+                                <p className="text-base text-white">
                                     {user?.isActive ? 'Activa' : 'Inactiva'}
                                 </p>
                             </div>
@@ -109,7 +109,7 @@ const UserPersonalData = ({ isEditingPersonal, user, editedPersonal, setIsEditin
                 <div className="grid gap-6 md:grid-cols-2">
                     <div className="space-y-4">
                         <div>
-                            <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
+                            <Label htmlFor="firstName" className="text-sm font-medium text-zinc-300">
                                 Nombre
                             </Label>
                             <Input
@@ -117,13 +117,13 @@ const UserPersonalData = ({ isEditingPersonal, user, editedPersonal, setIsEditin
                                 type="text"
                                 value={editedPersonal.firstName}
                                 onChange={(e) => setEditedPersonal({ ...editedPersonal, firstName: e.target.value })}
-                                className="mt-1"
+                                className="mt-1 bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
                                 placeholder="Tu nombre"
                             />
                         </div>
 
                         <div>
-                            <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">
+                            <Label htmlFor="lastName" className="text-sm font-medium text-zinc-300">
                                 Apellido
                             </Label>
                             <Input
@@ -131,7 +131,7 @@ const UserPersonalData = ({ isEditingPersonal, user, editedPersonal, setIsEditin
                                 type="text"
                                 value={editedPersonal.lastName}
                                 onChange={(e) => setEditedPersonal({ ...editedPersonal, lastName: e.target.value })}
-                                className="mt-1"
+                                className="mt-1 bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
                                 placeholder="Tu apellido"
                             />
                         </div>
@@ -139,7 +139,7 @@ const UserPersonalData = ({ isEditingPersonal, user, editedPersonal, setIsEditin
 
                     <div className="space-y-4">
                         <div>
-                            <Label htmlFor="username" className="text-sm font-medium text-gray-500">
+                            <Label htmlFor="username" className="text-sm font-medium text-zinc-500">
                                 Nombre de usuario
                             </Label>
                             <Input
@@ -147,9 +147,9 @@ const UserPersonalData = ({ isEditingPersonal, user, editedPersonal, setIsEditin
                                 type="text"
                                 value={`@${user?.username}`}
                                 disabled
-                                className="mt-1 bg-gray-50 text-gray-500"
+                                className="mt-1 bg-zinc-800/50 text-zinc-500 border-zinc-700"
                             />
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-xs text-zinc-500 mt-1">
                                 El nombre de usuario no se puede cambiar
                             </p>
                         </div>
