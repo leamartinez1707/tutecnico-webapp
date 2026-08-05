@@ -58,12 +58,12 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
     const technicianIsReviewed = alreadyReviewed.some(review =>
         review.technician.id === booking.technician.id);
     return (
-        <TableRow className="hover:bg-gray-50 transition-colors">
-            <TableCell className="font-medium text-gray-900">#{booking.id}</TableCell>
+        <TableRow className="hover:bg-zinc-800/50 transition-colors">
+            <TableCell className="font-medium text-zinc-300">#{booking.id}</TableCell>
             <TableCell>
                 <div className="space-y-1">
-                    <div className="font-medium text-gray-900">{displayData.name}</div>
-                    <div className="text-sm text-gray-500 flex items-center gap-1">
+                    <div className="font-medium text-white">{displayData.name}</div>
+                    <div className="text-sm text-zinc-400 flex items-center gap-1">
                         {displayData.phone && (
                             <>
                                 <Phone className="h-3 w-3" />
@@ -74,21 +74,21 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
                 </div>
             </TableCell>
             <TableCell>
-                <div className="flex items-center gap-1 text-sm">
-                    <Calendar className="h-3 w-3 text-gray-400" />
+                <div className="flex items-center gap-1 text-sm text-zinc-300">
+                    <Calendar className="h-3 w-3 text-zinc-500" />
                     {formatDate(booking.date)}
                 </div>
             </TableCell>
             <TableCell>
                 <div className="max-w-xs">
-                    <p className="text-sm text-gray-700 truncate" title={booking.comment}>
+                    <p className="text-sm text-zinc-400 truncate" title={booking.comment}>
                         {booking.comment}
                     </p>
                 </div>
             </TableCell>
             <TableCell>
-                <div className="text-sm text-gray-600 flex items-center gap-1">
-                    <MapPin className="h-3 w-3 text-gray-400" />
+                <div className="text-sm text-zinc-400 flex items-center gap-1">
+                    <MapPin className="h-3 w-3 text-zinc-500" />
                     <span className="truncate max-w-[80px] md:max-w-[150px] lg:max-w-[200px]" title={displayData.address}>
                         {displayData.address}
                     </span>
@@ -103,7 +103,7 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
                             e.stopPropagation();
                             handleViewDetails(booking);
                         }}
-                        className="size-8 text-blue-600 border border-blue-200 hover:bg-blue-50 rounded text-sm flex items-center justify-center"
+                        className="size-8 text-blue-400 border border-blue-800 hover:bg-blue-900/30 rounded text-sm flex items-center justify-center"
                         title="Ver detalles"
                     >
                         <Eye className="h-3 w-3" />
@@ -115,7 +115,7 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
                                 e.stopPropagation();
                                 handleDeleteBooking(booking.id);
                             }}
-                            className="size-8 text-red-600 border border-red-200 hover:bg-red-50 rounded text-sm flex items-center justify-center"
+                            className="size-8 text-red-400 border border-red-800 hover:bg-red-900/30 rounded text-sm flex items-center justify-center"
                             title="Borrar reserva"
                         >
                             <Trash className="h-3 w-3" />
@@ -143,10 +143,10 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
                                         e.stopPropagation();
                                         handleViewDetails(booking);
                                     }}
-                                    className="size-8 text-green-600 border border-green-200 bg-green-50 rounded text-sm flex items-center justify-center gap-1"
+                                    className="size-8 text-green-400 border border-green-800 bg-green-900/30 rounded text-sm flex items-center justify-center"
                                     title="Ver tu reseña"
                                 >
-                                    <Star className="h-3 w-3 fill-green-600" />
+                                    <Star className="h-3 w-3 fill-green-400" />
                                 </button>
                             ) : (
                                 <button
@@ -154,7 +154,7 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
                                         e.stopPropagation();
                                         handleWriteReview(booking);
                                     }}
-                                    className="size-8 text-yellow-600 border border-yellow-200 hover:bg-yellow-50 rounded text-sm flex items-center justify-center"
+                                    className="size-8 text-yellow-400 border border-yellow-800 hover:bg-yellow-900/30 rounded text-sm flex items-center justify-center"
                                     title="Escribir reseña"
                                 >
                                     <Star className="h-3 w-3" />
@@ -172,7 +172,7 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
                                         size="sm"
                                         variant="outline"
                                         onClick={handleAcceptBooking}
-                                        className="h-8 px-2 text-green-600 border-green-200 hover:bg-green-50"
+                                        className="h-8 px-2 text-green-400 border-green-800 hover:bg-green-900/30"
                                         title="Aceptar"
                                     >
                                         <Check className="h-3 w-3" />
@@ -181,7 +181,7 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
                                         size="sm"
                                         variant="outline"
                                         onClick={handleRejectBooking}
-                                        className="h-8 px-2 text-red-600 border-red-200 hover:bg-red-50"
+                                        className="h-8 px-2 text-red-400 border-red-800 hover:bg-red-900/30"
                                         title="Rechazar"
                                     >
                                         <X className="h-3 w-3" />
@@ -193,7 +193,7 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
                                     size="sm"
                                     variant="outline"
                                     onClick={handleCompleteBooking}
-                                    className="h-8 px-2 text-green-600 border-green-200 hover:bg-green-50"
+                                    className="h-8 px-2 text-green-400 border-green-800 hover:bg-green-900/30"
                                     title="Completar"
                                 >
                                     <Check className="h-3 w-3" />
