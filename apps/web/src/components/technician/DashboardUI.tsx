@@ -492,8 +492,8 @@ const DashboardUi = memo(() => {
                             <div className="bg-gray-50 rounded-lg p-4">
                                 <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-2">Calificación</div>
                                 <div className="flex items-center gap-2">
-                                    <Rating name="size-medium" readOnly value={+technician.averageRating} size="small" />
-                                    <span className="text-sm text-gray-600">({+technician.averageRating}/5)</span>
+                                    <Rating name="size-medium" readOnly value={Math.round(+technician.averageRating)} size="small" />
+                                    <span className="text-sm text-gray-600">({Math.round(+technician.averageRating)}/5)</span>
                                 </div>
                             </div>
 

@@ -23,6 +23,7 @@ describe('TechniciansService — Membership', () => {
     membershipActive: true,
     membershipStartedAt: new Date('2026-01-01'),
     membershipExpiresAt: new Date('2026-02-01'),
+    createdAt: new Date('2026-01-01'),
     user: { id: 5 } as User,
     specialization: 'Plumbing',
     latitude: 0,

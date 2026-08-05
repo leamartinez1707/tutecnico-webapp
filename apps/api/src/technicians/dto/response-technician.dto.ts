@@ -66,4 +66,8 @@ export class ResponseTechnicianDto {
   @Expose()
   @ApiProperty({ description: 'Promedio de calificaciones (0.00 - 5.00)', example: 4.35 })
   averageRating: number;
+
+  @Expose()
+  @ApiProperty({ required: false, nullable: true })
+  createdAt?: Date;
 }

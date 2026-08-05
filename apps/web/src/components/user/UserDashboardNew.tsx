@@ -701,7 +701,7 @@ const TechnicianCard = ({ tech, index, onClick, onBookingClick }: TechnicianCard
                         <div className="flex items-center gap-3">
                             <div className="flex items-center gap-1">
                                 <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                                <span className="text-white text-sm">{tech.averageRating}</span>
+                                <span className="text-white text-sm">{Math.round(tech.averageRating)}</span>
                                 {/* <span className="text-zinc-500 text-xs">({techReviews.length})</span> */}
                             </div>
                         </div>

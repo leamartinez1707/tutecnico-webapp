@@ -182,7 +182,7 @@ export function TechnicianDetail() {
                                                 </div>
                                                 <div className="flex items-center gap-1">
                                                     <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                                                    <span className="text-white">{rating > 0 ? rating.toFixed(1) : '—'}</span>
+                                                    <span className="text-white">{rating > 0 ? rating : 'Sin reseñas'}</span>
                                                     {reviews.length > 0 && <span>({reviews.length} {reviews.length === 1 ? 'reseña' : 'reseñas'})</span>}
                                                 </div>
                                             </div>
@@ -225,8 +225,8 @@ export function TechnicianDetail() {
                                     <Calendar className="h-6 w-6 text-white" />
                                 </div>
                                 <div>
-                                    <div className="text-sm text-zinc-400">En ServyFix desde</div>
-                                    <div className="text-white">2025</div>
+                                    <div className="text-sm text-zinc-400">En TuTecnico desde</div>
+                                    <div className="text-white">{technician?.createdAt ?? "2026"}</div>
                                 </div>
                             </div>
                             <div className="bg-zinc-800/30 border border-zinc-700/50 rounded-xl p-4 flex items-center gap-4">
@@ -272,7 +272,7 @@ export function TechnicianDetail() {
                                 {reviewCount > 0 && (
                                     <div className="flex items-center gap-2">
                                         <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                                        <span className="text-xl text-white">{rating > 0 ? rating.toFixed(1) : '—'}</span>
+                                        <span className="text-xl text-white">{rating > 0 ? rating : '—'}</span>
                                         <span className="text-zinc-400">({reviewCount})</span>
                                     </div>
                                 )}
@@ -378,7 +378,7 @@ export function TechnicianDetail() {
                                     <div>
                                         <div className="text-emerald-400 mb-1">Perfil Verificado</div>
                                         <p className="text-sm text-zinc-400">
-                                            Este técnico ha sido verificado por ServyFix
+                                            Este técnico ha sido verificado por TuTecnico
                                         </p>
                                     </div>
                                 </div>

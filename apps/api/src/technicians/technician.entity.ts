@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, Unique, OneToOne, JoinColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany, ManyToMany, JoinTable, CreateDateColumn } from "typeorm";
 import { User } from "src/users/user.entity";
 import { Review } from "src/reviews/entities/review.entity";
 import { Booking } from "src/bookings/entities/booking.entity";
@@ -60,4 +60,7 @@ export class Technician {
 
     @Column({ type: 'timestamp', nullable: true })
     membershipExpiresAt: Date | null;
+
+    @CreateDateColumn()
+    createdAt: Date;
 }

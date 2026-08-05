@@ -97,7 +97,7 @@ const TechnicianModal = ({ tech, isOpen, onClose, setAddBookingModal }: Technici
                 <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
                 <span className="capitalize text-sm">{tech.specialization}</span>
               </div>
-              {rating >= 4.5 && (
+              {rating >= 4 && (
                 <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
                   Top Rated
                 </span>
@@ -114,7 +114,7 @@ const TechnicianModal = ({ tech, isOpen, onClose, setAddBookingModal }: Technici
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 text-yellow-400 fill-current" />
               <span className="font-semibold text-gray-900">
-                {rating > 0 ? rating.toFixed(1) : 'No calculado'}
+                {rating > 0 ? rating : 'No calculado'}
               </span>
             </div>
             <span className="text-gray-500 text-sm">

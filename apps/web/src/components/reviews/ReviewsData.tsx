@@ -82,7 +82,7 @@ const ReviewsData = ({ reviews: reviewsFiltered }: ReviewsDataProps) => {
                                     <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                         <Star className="h-10 w-10 text-yellow-500 fill-yellow-500" />
                                     </div>
-                                    <h2 className="text-4xl font-bold text-gray-900 mb-2">{averageRating(reviewsFiltered).toFixed(1)}</h2>
+                                    <h2 className="text-4xl font-bold text-gray-900 mb-2">{averageRating(reviewsFiltered)}</h2>
                                     <p className="text-gray-600 font-medium">Calificación promedio</p>
                                     <div className="flex justify-center mt-2">
                                         {renderStars(Math.round(averageRating(reviewsFiltered)))}
