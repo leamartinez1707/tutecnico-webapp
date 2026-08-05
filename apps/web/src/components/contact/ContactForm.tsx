@@ -92,17 +92,17 @@ export default function ContactForm() {
 
     if (isSubmitted) {
         return (
-            <Card className="w-full border border-primary shadow-lg rounded-none bg-white">
+            <Card className="w-full shadow-xl rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-800/90 border border-zinc-700/60">
                 <CardContent className="p-0">
                     <div className="p-8 text-center">
-                        <div className="mx-auto w-12 h-12 flex items-center justify-center mb-4 bg-primary/10" style={{ borderRadius: 0 }}>
-                            <CheckCircle2 className="h-6 w-6 text-primary" />
+                        <div className="mx-auto w-12 h-12 flex items-center justify-center mb-4 bg-blue-900/50 rounded-lg">
+                            <CheckCircle2 className="h-6 w-6 text-blue-400" />
                         </div>
-                        <h2 className="text-2xl font-bold mb-2 text-primary">¡Gracias!</h2>
-                        <p className="text-muted-foreground mb-6">
+                        <h2 className="text-2xl font-bold mb-2 text-white">¡Gracias!</h2>
+                        <p className="text-zinc-400 mb-6">
                             Tu mensaje ha sido enviado correctamente. Nuestro equipo de soporte lo revisará y se pondrá en contacto contigo lo antes posible.
                         </p>
-                        <Button onClick={() => setIsSubmitted(false)} className="rounded-none bg-primary text-white">Enviar otro mensaje</Button>
+                        <Button onClick={() => setIsSubmitted(false)} className="rounded-lg bg-blue-600 hover:bg-blue-700 text-white">Enviar otro mensaje</Button>
                     </div>
                 </CardContent>
             </Card>
@@ -110,7 +110,7 @@ export default function ContactForm() {
     }
 
     return (
-        <Card className="w-full shadow-lg rounded-none bg-white animate-in fade-in-50 duration-300 border-none">
+        <Card className="w-full shadow-xl rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-800/90 border border-zinc-700/60">
             <CardContent className="p-8">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -119,10 +119,10 @@ export default function ContactForm() {
                                 control={form.control}
                                 name="name"
                                 render={({ field }) => (
-                                    <FormItem className="rounded-none">
-                                        <FormLabel className="text-primary font-semibold">Nombre</FormLabel>
+                                    <FormItem>
+                                        <FormLabel className="text-zinc-300 font-semibold">Nombre</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Tu nombre" {...field} className="rounded-none border-primary focus:ring-primary" />
+                                            <Input placeholder="Tu nombre" {...field} className="rounded-lg bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-blue-500 focus:ring-blue-500" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -132,10 +132,10 @@ export default function ContactForm() {
                                 control={form.control}
                                 name="email"
                                 render={({ field }) => (
-                                    <FormItem className="rounded-none">
-                                        <FormLabel className="text-primary font-semibold">Email</FormLabel>
+                                    <FormItem>
+                                        <FormLabel className="text-zinc-300 font-semibold">Email</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="tu.email@ejemplo.com" type="email" {...field} className="rounded-none border-primary focus:ring-primary" />
+                                            <Input placeholder="tu.email@ejemplo.com" type="email" {...field} className="rounded-lg bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-blue-500 focus:ring-blue-500" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -147,10 +147,10 @@ export default function ContactForm() {
                                 control={form.control}
                                 name="phone"
                                 render={({ field }) => (
-                                    <FormItem className="rounded-none">
-                                        <FormLabel className="text-primary font-semibold">Teléfono</FormLabel>
+                                    <FormItem>
+                                        <FormLabel className="text-zinc-300 font-semibold">Teléfono</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Ejemplo: 095123321" {...field} className="rounded-none border-primary focus:ring-primary" />
+                                            <Input placeholder="Ejemplo: 095123321" {...field} className="rounded-lg bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-blue-500 focus:ring-blue-500" />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -160,17 +160,17 @@ export default function ContactForm() {
                                 control={form.control}
                                 name="issueType"
                                 render={({ field }) => (
-                                    <FormItem className="rounded-none">
-                                        <FormLabel className="text-primary font-semibold">Tipo de problema</FormLabel>
+                                    <FormItem>
+                                        <FormLabel className="text-zinc-300 font-semibold">Tipo de problema</FormLabel>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
-                                                <SelectTrigger className="rounded-none border-primary focus:ring-primary">
+                                                <SelectTrigger className="rounded-lg bg-zinc-800 border-zinc-700 text-white focus:ring-blue-500">
                                                     <SelectValue placeholder="Selecciona un tipo de problema" />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent className="rounded-none bg-white">
+                                            <SelectContent className="rounded-lg bg-zinc-800 border-zinc-700 text-white">
                                                 {issueTypes.map((type) => (
-                                                    <SelectItem key={type.value} value={type.value} className="rounded-none hover:bg-gray-100">
+                                                    <SelectItem key={type.value} value={type.value} className="hover:bg-zinc-700 focus:bg-zinc-700">
                                                         {type.label}
                                                     </SelectItem>
                                                 ))}
@@ -185,10 +185,10 @@ export default function ContactForm() {
                             control={form.control}
                             name="subject"
                             render={({ field }) => (
-                                <FormItem className="rounded-none">
-                                    <FormLabel className="text-primary font-semibold">Motivo</FormLabel>
+                                <FormItem>
+                                    <FormLabel className="text-zinc-300 font-semibold">Motivo</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Breve descripción del motivo" {...field} className="rounded-none border-primary focus:ring-primary" />
+                                        <Input placeholder="Breve descripción del motivo" {...field} className="rounded-lg bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-blue-500 focus:ring-blue-500" />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -198,12 +198,12 @@ export default function ContactForm() {
                             control={form.control}
                             name="message"
                             render={({ field }) => (
-                                <FormItem className="rounded-none">
-                                    <FormLabel className="text-primary font-semibold">Mensaje</FormLabel>
+                                <FormItem>
+                                    <FormLabel className="text-zinc-300 font-semibold">Mensaje</FormLabel>
                                     <FormControl>
                                         <Textarea
                                             placeholder="Danos más detalles sobre tu problema o consulta"
-                                            className="min-h-[120px] rounded-none border-primary focus:ring-primary"
+                                            className="min-h-[120px] rounded-lg bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-blue-500 focus:ring-blue-500"
                                             {...field}
                                         />
                                     </FormControl>
@@ -214,7 +214,7 @@ export default function ContactForm() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="w-full md:w-auto rounded-none bg-primary-darky text-white" disabled={isSubmitting}>
+                        <Button type="submit" className="w-full md:w-auto rounded-lg bg-blue-600 hover:bg-blue-700 text-white" disabled={isSubmitting}>
                             {isSubmitting ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

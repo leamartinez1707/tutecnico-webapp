@@ -63,34 +63,34 @@ const BookingsTable = ({ bookings }: BookingsTableProps) => {
     const getStatusBadge = (status: BookingStatus) => {
         switch (status) {
             case "Pendiente":
-                return <Badge variant="outline" className="text-yellow-600 border-yellow-300">Pendiente</Badge>
+                return <Badge variant="outline" className="text-yellow-400 border-yellow-700 bg-yellow-900/30">Pendiente</Badge>
             case "Aceptado":
-                return <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">Aceptada</Badge>
+                return <Badge className="bg-blue-900/50 text-blue-400 border-blue-800">Aceptada</Badge>
             case "Completado":
-                return <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Completada</Badge>
+                return <Badge className="bg-green-900/50 text-green-400 border-green-800">Completada</Badge>
             case "Rechazado":
-                return <Badge className="bg-red-100 text-red-800 hover:bg-red-100">Rechazada</Badge>
+                return <Badge className="bg-red-900/50 text-red-400 border-red-800">Rechazada</Badge>
         }
     }
 
 
 
     return (
-        <div className="bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden">
+        <div className="bg-zinc-900/80 border border-zinc-700/60 rounded-xl shadow-xl overflow-hidden">
 
             <div className="overflow-x-auto">
                 <Table>
                     <TableHeader>
-                        <TableRow className="bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
-                            <TableHead className="font-semibold text-gray-700 py-4 w-[5%]">ID</TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4 w-[18%]">
+                        <TableRow className="bg-gradient-to-r from-zinc-800 to-zinc-800/50 border-b border-zinc-700/60">
+                            <TableHead className="font-semibold text-zinc-300 py-4 w-[5%]">ID</TableHead>
+                            <TableHead className="font-semibold text-zinc-300 py-4 w-[18%]">
                                 {isTechnician ? "Cliente" : "Técnico"}
                             </TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4 w-[14%]">Fecha</TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4 w-[22%]">Comentario</TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4 w-[16%]">Dirección</TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4 w-[10%]">Estado</TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4 text-center w-[15%]">Acciones</TableHead>
+                            <TableHead className="font-semibold text-zinc-300 py-4 w-[14%]">Fecha</TableHead>
+                            <TableHead className="font-semibold text-zinc-300 py-4 w-[22%]">Comentario</TableHead>
+                            <TableHead className="font-semibold text-zinc-300 py-4 w-[16%]">Dirección</TableHead>
+                            <TableHead className="font-semibold text-zinc-300 py-4 w-[10%]">Estado</TableHead>
+                            <TableHead className="font-semibold text-zinc-300 py-4 text-center w-[15%]">Acciones</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

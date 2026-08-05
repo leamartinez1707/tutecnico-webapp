@@ -50,7 +50,7 @@ function FormBooking({ handleAddBooking, setBookingData, setAddBookingModal }: F
                     aria-label="Fecha de la reserva"
                     placeholder="Fecha preferida"
                     required
-                    className='bg-white text-black'
+                    className='bg-zinc-800 text-white border-zinc-700 focus:border-blue-500 focus:ring-blue-500'
                     onChange={(e) => setBookingData(prev => ({ ...prev!, date: e.target.value }))}
                 />
                 <Button type="submit" className="w-full bg-green-500 hover:bg-green-600 transition-colors duration-200 text-light">

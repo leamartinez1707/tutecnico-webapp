@@ -34,12 +34,12 @@ const ProfilePage = () => {
   }, [user, setEditedPersonal, setEditedContact])
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black">
       <div className="container mx-auto py-4 sm:py-8 px-4 max-w-7xl">
-        {/* Header mejorado */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Tu Perfil</h1>
-          <p className="text-gray-600">Gestiona tu información personal</p>
+        {/* Header */}
+        <div className="mb-6 sm:mb-8 pt-24">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Tu Perfil</h1>
+          <p className="text-zinc-400">Gestiona tu información personal</p>
         </div>
 
         {/* Layout responsive mejorado */}

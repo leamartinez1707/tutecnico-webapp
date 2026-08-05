@@ -73,13 +73,13 @@ const BookingsList = ({ activeTab, handleTabChange, bookingCounts, paginatedBook
 
                 <TabsContent value={activeTab} className="mt-8">
                     {paginatedBookings.length === 0 ? (
-                        <div className="text-center py-16 bg-gray-50 rounded-md border-2 border-dashed border-gray-300">
-                            <Calendar className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-                            <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                        <div className="text-center py-16 bg-zinc-900/50 rounded-md border-2 border-dashed border-zinc-700">
+                            <Calendar className="mx-auto h-16 w-16 text-zinc-500 mb-4" />
+                            <h3 className="text-xl font-semibold text-zinc-300 mb-2">
                                 No tienes reservas {activeTab.toLowerCase()}
                             </h3>
-                            <p className="text-gray-500 max-w-md mx-auto">
-                                Las nuevas solicitudes con estado <span className="font-medium">{capitalizeFirstLetter(activeTab.toLowerCase())}</span> aparecerán aquí.
+                            <p className="text-zinc-500 max-w-md mx-auto">
+                                Las nuevas solicitudes con estado <span className="font-medium text-zinc-300">{capitalizeFirstLetter(activeTab.toLowerCase())}</span> aparecerán aquí.
                             </p>
                         </div>
                     ) : (
