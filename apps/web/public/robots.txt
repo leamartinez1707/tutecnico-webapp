@@ -1,0 +1,11 @@
+# robots.txt para ServyFix
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://www.servyfix.com/sitemap.xml
+
+# Crawl-delay para ser amigable con el servidor
+Crawl-delay: 1
