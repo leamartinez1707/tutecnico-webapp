@@ -3,14 +3,12 @@ import { useUsers } from "@/context/UsersContext"
 import BasicInformation from "@/components/user/profile/BasicInformation"
 import UserData from "@/components/user/profile/UserData"
 import { useEditProfile } from "@/hooks/useEditUserProfile"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { enqueueSnackbar } from "notistack"
-import { AlertCircle } from "lucide-react"
 
 const ProfilePage = () => {
-  const { user, checkProfileCompletion } = useAuth()
+  const { user } = useAuth()
   const { updateUserData } = useUsers()
-  const [showCompletionAlert, setShowCompletionAlert] = useState(false)
 
   const { isEditingPersonal, isEditingContact, editedPersonal, editedContact, setIsEditingContact, setIsEditingPersonal, setEditedPersonal, setEditedContact, handleSaveContact, handleSavePersonal } = useEditProfile({ user, updateUserData })
 
@@ -28,20 +26,12 @@ const ProfilePage = () => {
         address: user?.address,
       })
 
-      // Verificar si necesita completar el perfil
-      const isComplete = checkProfileCompletion(user);
-      setShowCompletionAlert(!isComplete);
-      
-      // Mostrar aviso si falta dirección o teléfono (solo una vez)
-      if (!isComplete && !sessionStorage.getItem('profile_warning_shown')) {
-        enqueueSnackbar("Por favor completa tu dirección y teléfono para finalizar el registro.", { 
-          variant: "warning",
-          autoHideDuration: 6000
-        });
-        sessionStorage.setItem('profile_warning_shown', 'true');
+      // Mostrar aviso si falta dirección o teléfono
+      if (!user.address || !user.phone) {
+        enqueueSnackbar("Por favor completa tu dirección y teléfono para finalizar el registro.", { variant: "warning" });
       }
     }
-  }, [user, setEditedPersonal, setEditedContact, checkProfileCompletion])
+  }, [user, setEditedPersonal, setEditedContact])
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -51,21 +41,6 @@ const ProfilePage = () => {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Tu Perfil</h1>
           <p className="text-gray-600">Gestiona tu información personal</p>
         </div>
-
-        {/* Alerta de perfil incompleto */}
-        {showCompletionAlert && (
-          <div className="mb-6 bg-amber-50 border-l-4 border-amber-500 p-4 rounded-lg shadow-sm">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="size-5 text-amber-600 mt-0.5 shrink-0" />
-              <div>
-                <h3 className="font-semibold text-amber-900 mb-1">Completa tu perfil</h3>
-                <p className="text-sm text-amber-800">
-                  Para poder reservar servicios necesitas completar tu <strong>dirección</strong> y <strong>teléfono</strong>.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Layout responsive mejorado */}
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-8">

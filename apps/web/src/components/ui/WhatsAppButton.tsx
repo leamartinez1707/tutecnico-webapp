@@ -32,8 +32,8 @@ const WhatsAppButton = ({
   
   // Construir mensaje predeterminado si no se proporciona uno
   const defaultMessage = userName 
-    ? `Hola ${userName}, te contacto desde ServyFix Uruguay.`
-    : 'Hola, te contacto desde ServyFix Uruguay.';
+    ? `Hola ${userName}, te contacto desde TechFinder Uruguay.`
+    : 'Hola, te contacto desde TechFinder Uruguay.';
   
   const whatsappMessage = message || defaultMessage;
   

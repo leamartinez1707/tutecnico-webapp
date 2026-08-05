@@ -8,7 +8,6 @@ import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import FavoriteIcon from '../user/FavoriteIcon';
 import UserAvatar from '../ui/UserAvatar';
-import { logger } from '@/utils/logger';
 import {
   Star,
   MapPin,
@@ -37,8 +36,7 @@ const TechnicianModal = ({ tech, isOpen, onClose, setAddBookingModal }: Technici
 
   const reviews = allReviews.length > 0 ? allReviews.filter(review => review.technician.id === tech.id) : [];
   // TODO: Modificar a logar que el rating venga calculado desde el backend
-  const rating = tech.averageRating || 0;
-  // const rating = reviews.reduce((acc, review) => acc + review.rating, 0) / (reviews.length || 1);
+  const rating = reviews.reduce((acc, review) => acc + review.rating, 0) / (reviews.length || 1);
 
   const handleBooking = () => {
     if (!isAuthenticated) {
@@ -53,13 +51,6 @@ const TechnicianModal = ({ tech, isOpen, onClose, setAddBookingModal }: Technici
     onClose();
     navigate(`/tecnico/detalle/${tech.username}`);
   };
-
-  logger.debug('TechnicianModal renderizado', {
-    techId: tech?.id,
-    techName: `${tech?.firstName} ${tech?.lastName}`,
-    distance: tech?.distance,
-    hasDistance: tech?.distance !== undefined
-  });
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -118,7 +109,7 @@ const TechnicianModal = ({ tech, isOpen, onClose, setAddBookingModal }: Technici
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 text-yellow-400 fill-current" />
               <span className="font-semibold text-gray-900">
-                {rating}
+                {rating > 0 ? rating : 'No calculado'}
               </span>
             </div>
             <span className="text-gray-500 text-sm">

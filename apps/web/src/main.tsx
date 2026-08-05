@@ -14,8 +14,6 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { queryClient } from './lib/queryClient.ts'
 import { initAnalytics } from './utils/analytics.ts'
-// Configuración de i18n para traducciones
-import './config/i18n.ts'
 
 // Configurar manejadores globales de errores
 setupGlobalErrorHandlers()

@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import ErrorMessage from '@/components/Error/Message'
 import { SignUp, SignUpUser } from '@/types';
 import { LockIcon, Mail, MapPinIcon, Phone, User2 } from 'lucide-react';
+import { useState } from 'react';
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 import { formStyles } from './formStyles';
 import PasswordStrength from '../PasswordStrength';
@@ -13,7 +13,6 @@ type BothUserFormProps = {
 
 const BothUserForm = ({ register, errors }: BothUserFormProps) => {
     const [passwordSelected, setPasswordSelected] = useState<string>('');
-
     return (
         <div className="space-y-6">
             <div className="space-y-2">
@@ -118,12 +117,13 @@ const BothUserForm = ({ register, errors }: BothUserFormProps) => {
                         id="address"
                         className={formStyles.inputWithIcon}
                         placeholder="Ej: 18 de Julio 1234"
+                        autoComplete="off"
                         {...register("address")}
                     />
+                    <ErrorMessage>
+                        {errors.address && errors.address.message}
+                    </ErrorMessage>
                 </div>
-                <ErrorMessage>
-                    {errors.address && errors.address.message}
-                </ErrorMessage>
             </div>
 
             <div className="space-y-2">

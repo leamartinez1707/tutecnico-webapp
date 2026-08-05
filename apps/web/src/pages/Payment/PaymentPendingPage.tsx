@@ -132,11 +132,11 @@ const PaymentPendingPage = () => {
                     {/* Botones de navegación */}
                     <div className="flex flex-col sm:flex-row gap-3 pt-4">
                         <Button
-                            onClick={() => navigate('/panel/tecnico')}
+                            onClick={() => navigate('/dashboard')}
                             className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
                         >
                             <RefreshCw className="w-4 h-4 mr-2" />
-                            Ver Estado en Panel
+                            Ver Estado en Dashboard
                         </Button>
                         <Button
                             onClick={() => navigate('/')}

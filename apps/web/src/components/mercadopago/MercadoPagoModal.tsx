@@ -46,7 +46,7 @@ const MercadoPagoModal = memo(({ planType }: MercadoPagoModalProps) => {
         if (planType === 'monthly') {
             return {
                 name: 'Plan Mensual',
-                price: '$790',
+                price: '$490',
                 period: '/mes',
                 features: [
                     'Perfil destacado en búsquedas',
@@ -58,7 +58,7 @@ const MercadoPagoModal = memo(({ planType }: MercadoPagoModalProps) => {
         }
         return {
             name: 'Plan Anual',
-            price: '$7.900',
+            price: '$4.940',
             period: '/año',
             savings: 'Ahorrás 2 meses',
             features: [

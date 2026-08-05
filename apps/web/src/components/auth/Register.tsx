@@ -203,6 +203,7 @@ const Register = () => {
                                             </div>
                                             <TechForm
                                                 setSelectedDepartment={setSelectedDepartment}
+                                                selectedDepartment={selectedDepartment}
                                                 register={register}
                                                 selectedRole={selectedRole}
                                                 setShowProfessions={setShowProfessions}
@@ -218,7 +219,7 @@ const Register = () => {
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: selectedRole === 'tecnico' ? 0.4 : 0.2 }}
-                                        className="bg-linear-to-br from-blue-600/10 to-cyan-600/10 p-6 rounded-xl border border-blue-700/30"
+                                        className="bg-gradient-to-br from-blue-600/10 to-cyan-600/10 p-6 rounded-xl border border-blue-700/30"
                                     >
                                         <div className="flex items-center gap-3 mb-4">
                                             <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" aria-hidden="true" />
@@ -291,8 +292,8 @@ const Register = () => {
                     <LogInIcon className="size-5 text-zinc-300" aria-hidden="true" />
                     <span className="ml-2 text-zinc-200">
                         ¿Ya tienes una cuenta?
-                        <Link
-                            to={'/login'}
+                        <Link 
+                            to={'/login'} 
                             aria-label="Ir a la página de inicio de sesión"
                             className="text-blue-400 hover:text-blue-300 font-bold ml-1 underline decoration-blue-400/50 hover:decoration-blue-300 transition-colors"
                         >

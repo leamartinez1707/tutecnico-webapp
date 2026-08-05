@@ -22,7 +22,7 @@ const PaymentFailurePage = () => {
     }, [searchParams]);
 
     const handleRetry = () => {
-        navigate('/panel/tecnico');
+        navigate('/dashboard');
     };
 
     return (

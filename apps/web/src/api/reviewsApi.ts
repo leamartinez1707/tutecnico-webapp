@@ -1,5 +1,4 @@
 import { Review } from "@/types";
-import { handleApiError } from "@/utils";
 import api from "./axios";
 
 
@@ -10,8 +9,7 @@ export const getTechnicianReviewsByUsernameRequest = async (username: string): P
         console.log(response)
         return response.data.items || [];
     } catch (error) {
-        const apiError = handleApiError(error, `/technicians/${username}/reviews`);
-        console.error("Error fetching technician reviews:", apiError.message);
+        console.error("Error fetching technician reviews:", error);
         return [];
     }
 }
@@ -22,8 +20,8 @@ export const getUserReviewsByUsernameRequest = async (username: string) => {
         const response = await api(`/users/${username}/reviews`);
         return response.data.items || [];
     } catch (error) {
-        const apiError = handleApiError(error, `/users/${username}/reviews`);
-        throw new Error(apiError.message);
+        console.error("Error fetching user reviews:", error);
+        throw error;
     }
 }
 
@@ -32,8 +30,8 @@ export const getAllReviewsRequest = async (): Promise<Review[]> => {
         const response = await api(`/reviews`);
         return response.data.items || [];
     } catch (error) {
-        const apiError = handleApiError(error, '/reviews');
-        throw new Error(apiError.message);
+        console.error("Error fetching technician reviews:", error);
+        throw error;
     }
 }
 
@@ -48,7 +46,7 @@ export const createReviewRequest = async (technicianId: number, userId: number, 
         });
         return response.data;
     } catch (error) {
-        const apiError = handleApiError(error, '/reviews');
-        throw new Error(apiError.message);
+        console.error("Error creating review:", error);
+        throw error;
     }
 }

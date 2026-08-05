@@ -1,7 +1,6 @@
 import { isAxiosError } from "axios";
 import { logger } from "./logger";
 import { RateLimitError } from "./rateLimiter";
-import i18n from "../config/i18n";
 
 /**
  * Interfaz para respuesta de error estandarizada
@@ -28,7 +27,7 @@ export function handleApiError(error: unknown, endpoint: string): ApiError {
   // Error de rate limiting (frontend)
   if (error instanceof RateLimitError) {
     return {
-      message: i18n.t('errors.rateLimitWait', { seconds: error.waitTimeSeconds }),
+      message: `Demasiadas peticiones. Por favor espera ${error.waitTimeSeconds} segundos antes de intentar nuevamente.`,
       statusCode: 429,
       isRateLimited: true
     };
@@ -37,71 +36,57 @@ export function handleApiError(error: unknown, endpoint: string): ApiError {
   // Error de Axios (petición HTTP)
   if (isAxiosError(error)) {
     const statusCode = error.response?.status;
-    const responseData = error.response?.data;
-    
-    // NestJS puede devolver el mensaje en diferentes formatos:
-    // 1. { message: string }
-    // 2. { message: string[] }
-    // 3. { message: string, error: string, statusCode: number }
-    let serverMessage = "";
-    
-    if (responseData?.message) {
-      if (Array.isArray(responseData.message)) {
-        serverMessage = responseData.message[0]; // Tomar el primer mensaje
-      } else {
-        serverMessage = responseData.message;
-      }
-    }
+    const serverMessage = error.response?.data?.message;
 
     // Mensajes específicos por código de estado
     switch (statusCode) {
       case 400:
         return {
-          message: serverMessage || i18n.t('errors.invalidData'),
+          message: serverMessage || "Los datos enviados no son válidos",
           statusCode,
-          errors: Array.isArray(responseData?.message) ? responseData.message : undefined,
+          errors: error.response?.data?.errors,
         };
       case 401:
         return {
-          message: serverMessage || i18n.t('errors.unauthorized'),
+          message: "No estás autorizado. Por favor, inicia sesión nuevamente",
           statusCode,
         };
       case 403:
         return {
-          message: serverMessage || i18n.t('errors.forbidden'),
+          message: "No tienes permisos para realizar esta acción",
           statusCode,
         };
       case 404:
         return {
-          message: serverMessage || i18n.t('errors.notFound'),
+          message: "El recurso solicitado no fue encontrado",
           statusCode,
         };
       case 409:
         return {
-          message: serverMessage || i18n.t('errors.conflict'),
+          message: serverMessage || "Ya existe un recurso con esos datos",
           statusCode,
         };
       case 422:
         return {
-          message: serverMessage || i18n.t('errors.unprocessableEntity'),
+          message: "Los datos proporcionados no son válidos",
           statusCode,
-          errors: Array.isArray(responseData?.message) ? responseData.message : undefined,
+          errors: error.response?.data?.errors,
         };
       case 429:
         return {
-          message: i18n.t('errors.rateLimitGeneral'),
+          message: "Demasiadas peticiones. Por favor, intenta más tarde",
           statusCode,
         };
       case 500:
       case 502:
       case 503:
         return {
-          message: i18n.t('errors.serverError'),
+          message: "Error del servidor. Por favor, intenta más tarde",
           statusCode,
         };
       default:
         return {
-          message: serverMessage || i18n.t('errors.unexpectedError'),
+          message: serverMessage || "Ocurrió un error inesperado",
           statusCode,
         };
     }
@@ -111,19 +96,19 @@ export function handleApiError(error: unknown, endpoint: string): ApiError {
   if (error instanceof Error) {
     if (error.message.includes("Network Error")) {
       return {
-        message: i18n.t('errors.networkError'),
+        message: "Error de conexión. Verifica tu conexión a internet",
       };
     }
     
     // Error genérico
     return {
-      message: i18n.t('errors.unexpectedErrorRetry'),
+      message: "Ocurrió un error inesperado. Por favor, intenta nuevamente",
     };
   }
 
   // Error desconocido
   return {
-    message: i18n.t('errors.unexpectedError'),
+    message: "Ocurrió un error inesperado",
   };
 }
 
@@ -134,19 +119,9 @@ export function handleApiError(error: unknown, endpoint: string): ApiError {
  * @param defaultMessage - Mensaje por defecto si no se puede extraer
  * @returns Mensaje de error
  */
-export function getErrorMessage(error: unknown, defaultMessage: string = i18n.t('errors.unknownError')): string {
+export function getErrorMessage(error: unknown, defaultMessage: string = "Error desconocido"): string {
   if (isAxiosError(error)) {
-    const responseData = error.response?.data;
-    
-    // NestJS puede devolver el mensaje en diferentes formatos
-    if (responseData?.message) {
-      if (Array.isArray(responseData.message)) {
-        return responseData.message[0]; // Tomar el primer mensaje
-      }
-      return responseData.message;
-    }
-    
-    return error.message || defaultMessage;
+    return error.response?.data?.message || error.message || defaultMessage;
   }
   
   if (error instanceof Error) {

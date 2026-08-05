@@ -1,5 +1,6 @@
+import { isAxiosError } from "axios";
 import api from "./axios";
-import { handleApiError } from "@/utils";
+import { logger } from "@/utils/logger";
 
 export interface CreatePreferenceRequest {
     technicianId: number;
@@ -20,19 +21,27 @@ export interface CreatePreferenceResponse {
  * @returns URL de redirección y preferenceId
  */
 export const createCheckoutPreference = async (data: CreatePreferenceRequest): Promise<CreatePreferenceResponse> => {
+
     try {
-        console.log('Creando preferencia de checkout', { technicianId: data.technicianId, planType: data.planType });
+        logger.debug('Creando preferencia de checkout', { technicianId: data.technicianId, planType: data.planType });
         const response = await api.post<CreatePreferenceResponse>('/checkouts/create-preference', data);
 
         if (!response.data) {
             throw new Error('No se recibió respuesta del servidor');
         }
 
-        console.log('Preferencia de checkout creada exitosamente', { preferenceId: response.data.preferenceId });
+        logger.info('Preferencia de checkout creada exitosamente', { preferenceId: response.data.preferenceId });
         return response.data;
 
     } catch (error) {
-        const apiError = handleApiError(error, '/checkouts/create-preference');
-        throw new Error(apiError.message);
+
+        logger.apiError('/checkouts/create-preference', error);
+
+        if (isAxiosError(error) && error.response) {
+            const message = error.response.data.message || error.response.data.error || 'Error al crear la preferencia de pago';
+            throw new Error(message);
+        }
+
+        throw error;
     }
 };

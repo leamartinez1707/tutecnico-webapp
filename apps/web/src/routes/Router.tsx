@@ -40,6 +40,7 @@ const publicRoutes = [
     { path: publicPaths.paymentFailure, element: <PaymentFailurePage /> },
     { path: publicPaths.paymentPending, element: <PaymentPendingPage /> },
     { path: publicPaths.notFound, element: <NotFound /> },
+    { path: userPaths.map, element: <DashboardPage /> },
     { path: userPaths.technicianRating, element: <RatingPage /> }, // Perfil público de técnico
 ];
 
@@ -55,7 +56,6 @@ const userRoutes = [
     { path: userPaths.profile, element: <ProfilePage /> },
     { path: userPaths.favorites, element: <FavoritesPage /> },
     { path: userPaths.bookings, element: <UserBookingsPage /> },
-    { path: userPaths.map, element: <DashboardPage /> }, // Mapa accesible para todos los autenticados
 ];
 
 // Rutas para técnicos
@@ -108,12 +108,12 @@ const Router: FC = () => {
                     {publicRoutes.map(({ path, element }) => (
                         <Route key={path} path={path} element={<PageWrapper>{element}</PageWrapper>} />
                     ))}
-                    {/* Rutas del usuario (sin restricción de rol para /mapa) */}
+                    {/* Rutas del usuario */}
                     {userRoutes.map(({ path, element }) => (
                         <Route
                             key={path}
                             path={path}
-                            element={<PageWrapper><PrivateRoute element={element} requiredRole={path === userPaths.map ? "any" : "user"} /></PageWrapper>}
+                            element={<PageWrapper><PrivateRoute element={element} requiredRole="user" /></PageWrapper>}
                         />
                     ))}
                     {/* Rutas del tecnico */}

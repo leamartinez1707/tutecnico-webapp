@@ -4,6 +4,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Get,
   UseGuards,
   Req,
 } from '@nestjs/common';
@@ -18,6 +19,8 @@ import { RequestPasswordResetDto } from './dto/request-password-reset.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { RequestEmailVerificationDto } from './dto/request-email-verification.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { GoogleProfile } from './google.strategy';
 import { ApiTags, ApiBearerAuth, ApiOkResponse, ApiOperation, ApiExtension, ApiUnauthorizedResponse, ApiBadRequestResponse } from '@nestjs/swagger';
 import { ErrorResponseDto } from 'src/common/dto/error-response.dto';
 
@@ -95,5 +98,24 @@ export class AuthController {
   @ApiBadRequestResponse({ type: ErrorResponseDto })
   async verifyEmail(@Body() dto: VerifyEmailDto) {
     return this.authService.verifyEmail(dto.token);
+  }
+
+  @Get('google')
+  @ApiOperation({ summary: 'Login con Google', description: 'Access: Public. Redirige a la pantalla de consentimiento de Google.' })
+  @ApiExtension('x-roles', ['Public'])
+  @UseGuards(AuthGuard('google'))
+  async googleAuth() {
+    // Guard handles redirect to Google consent screen
+  }
+
+  @Get('google/callback')
+  @ApiOperation({ summary: 'Google OAuth callback', description: 'Access: Public. Intercambia el código por tokens JWT.' })
+  @ApiExtension('x-roles', ['Public'])
+  @Throttle({ googleCallback: { limit: 10, ttl: 60 } })
+  @UseGuards(AuthGuard('google'))
+  async googleAuthCallback(@Req() req: any) {
+    const profile: GoogleProfile = req.user;
+    const login = await this.authService.googleSignIn(profile);
+    return plainToInstance(ResponseLoginDto, login);
   }
 }

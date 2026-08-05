@@ -16,6 +16,19 @@ import { Cron } from '@nestjs/schedule';
 import { LessThan } from 'typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { TechnicianFilterDto } from './dto/technician-filter.dto';
+import { Payment } from 'src/checkouts/entities/payment.entity';
+import { PaymentProof, PaymentProofStatus } from 'src/checkouts/entities/payment-proof.entity';
+import { CreatePaymentProofDto } from './dto/create-payment-proof.dto';
+
+export interface MembershipHistoryItem {
+  type: 'mercadopago' | 'manual';
+  createdAt: Date;
+  amount: number;
+  status: string;
+  planType?: string;
+  membershipType?: string;
+  transactionReference?: string;
+}
 
 @Injectable()
 export class TechniciansService {
@@ -25,6 +38,10 @@ export class TechniciansService {
     private techniciansRepository: Repository<Technician>,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(Payment)
+    private paymentRepository: Repository<Payment>,
+    @InjectRepository(PaymentProof)
+    private paymentProofRepository: Repository<PaymentProof>,
     private geocodingService: GeocodingService,
     private servicesService: ServicesService
   ) { }
@@ -265,6 +282,100 @@ export class TechniciansService {
     }
 
     return this.techniciansRepository.save(technician);
+  }
+
+  async findMembershipStatus(technicianId: number): Promise<{
+    membershipType: string;
+    membershipActive: boolean;
+    membershipStartedAt: Date | null;
+    membershipExpiresAt: Date | null;
+  }> {
+    const technician = await this.techniciansRepository.findOne({
+      where: { id: technicianId },
+      select: ['id', 'membershipType', 'membershipActive', 'membershipStartedAt', 'membershipExpiresAt'],
+    });
+
+    if (!technician) {
+      throw new NotFoundException('Technician not found');
+    }
+
+    return {
+      membershipType: technician.membershipType,
+      membershipActive: technician.membershipActive,
+      membershipStartedAt: technician.membershipStartedAt,
+      membershipExpiresAt: technician.membershipExpiresAt,
+    };
+  }
+
+  async submitPaymentProof(technicianId: number, dto: CreatePaymentProofDto): Promise<PaymentProof> {
+    const technician = await this.techniciansRepository.findOne({ where: { id: technicianId } });
+    if (!technician) {
+      throw new NotFoundException('Technician not found');
+    }
+
+    const proof = this.paymentProofRepository.create({
+      membershipType: dto.membershipType,
+      transactionReference: dto.transactionReference,
+      transactionDate: new Date(dto.transactionDate),
+      amount: dto.amount,
+      bankAccount: dto.bankAccount,
+      status: PaymentProofStatus.PENDING,
+      technician,
+    });
+
+    return this.paymentProofRepository.save(proof);
+  }
+
+  async findMembershipHistory(technicianId: number, page = 1, limit = 20): Promise<{
+    items: MembershipHistoryItem[];
+    meta: { total: number; page: number; limit: number };
+  }> {
+    const technician = await this.techniciansRepository.findOne({ where: { id: technicianId } });
+    if (!technician) {
+      throw new NotFoundException('Technician not found');
+    }
+
+    const [payments, proofs] = await Promise.all([
+      this.paymentRepository.find({
+        where: { technician: { id: technicianId } },
+        order: { createdAt: 'DESC' },
+      }),
+      this.paymentProofRepository.find({
+        where: { technician: { id: technicianId } },
+        order: { createdAt: 'DESC' },
+      }),
+    ]);
+
+    const mercadopagoItems: MembershipHistoryItem[] = payments.map((p) => ({
+      type: 'mercadopago' as const,
+      createdAt: p.createdAt,
+      amount: Number(p.amount),
+      status: p.status,
+      planType: p.planType,
+      transactionReference: p.mercadopagoPaymentId,
+    }));
+
+    const manualItems: MembershipHistoryItem[] = proofs.map((p) => ({
+      type: 'manual' as const,
+      createdAt: p.createdAt,
+      amount: Number(p.amount),
+      status: p.status,
+      membershipType: p.membershipType,
+      transactionReference: p.transactionReference,
+    }));
+
+    const merged = [...mercadopagoItems, ...manualItems].sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+    );
+
+    const total = merged.length;
+    const start = (page - 1) * limit;
+    const items = merged.slice(start, start + limit);
+
+    return {
+      items,
+      meta: { total, page, limit },
+    };
   }
 
   async remove(id: number): Promise<{ message: string; technician: ResponseTechnicianDto }> {

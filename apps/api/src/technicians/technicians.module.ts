@@ -9,10 +9,12 @@ import { User } from 'src/users/user.entity';
 import { BookingsModule } from 'src/bookings/bookings.module';
 import { ReviewsModule } from 'src/reviews/reviews.module';
 import { ServicesModule } from 'src/services/services.module';
+import { Payment } from 'src/checkouts/entities/payment.entity';
+import { PaymentProof } from 'src/checkouts/entities/payment-proof.entity';
 
 @Module({
   // Import BookingsModule & ReviewsModule so their services can be injected in TechniciansController
-  imports: [TypeOrmModule.forFeature([Technician, User]), GeocodingModule, GuardsModule, forwardRef(() => BookingsModule), forwardRef(() => ReviewsModule), ServicesModule],
+  imports: [TypeOrmModule.forFeature([Technician, User, Payment, PaymentProof]), GeocodingModule, GuardsModule, forwardRef(() => BookingsModule), forwardRef(() => ReviewsModule), ServicesModule],
   controllers: [TechniciansController],
   providers: [TechniciansService, { provide: 'TechniciansService', useClass: TechniciansService }],
   exports: [TechniciansService, 'TechniciansService']

@@ -1,5 +1,4 @@
 import { Bookings, CreateBooking, TechnicianBookingsResponse, UserBookingsResponse } from "@/types";
-import { handleApiError } from "@/utils";
 import api from "./axios";
 
 export const addBookingRequest = async (booking: CreateBooking): Promise<Bookings> => {
@@ -7,8 +6,8 @@ export const addBookingRequest = async (booking: CreateBooking): Promise<Booking
         const { data } = await api.post<Bookings>('/bookings', booking);
         return data;
     } catch (error) {
-        const apiError = handleApiError(error, '/bookings');
-        throw new Error(apiError.message);
+        console.error("Error adding booking:", error);
+        throw error;
     }
 }
 
@@ -17,8 +16,8 @@ export const deleteBookingRequest = async (id: number) => {
         const { data } = await api.delete(`/bookings/${id}`);
         return data;
     } catch (error) {
-        const apiError = handleApiError(error, `/bookings/${id}`);
-        throw new Error(apiError.message);
+        console.error("Error deleting booking:", error);
+        throw error;
     }
 }
 
@@ -27,8 +26,8 @@ export const updateBookingRequest = async (id: number, booking: CreateBooking) =
         const { data } = await api.patch(`/bookings/${id}`, booking);
         return data;
     } catch (error) {
-        const apiError = handleApiError(error, `/bookings/${id}`);
-        throw new Error(apiError.message);
+        console.error("Error updating booking:", error);
+        throw error;
     }
 }
 
@@ -40,18 +39,17 @@ export const getBookingsRequest = async (username: string) => {
         }
         return data.items;
     } catch (error) {
-        const apiError = handleApiError(error, `/technicians/${username}/bookings`);
-        throw new Error(apiError.message);
+        console.error("Error fetching bookings:", error);
+        throw error;
     }
 }
-
 export const getBookingByIdRequest = async (id: number) => {
     try {
         const { data } = await api<TechnicianBookingsResponse>(`/bookings/${id}`);
         return data.bookings;
     } catch (error) {
-        const apiError = handleApiError(error, `/bookings/${id}`);
-        throw new Error(apiError.message);
+        console.error("Error fetching bookings:", error);
+        throw error;
     }
 }
 
@@ -63,7 +61,7 @@ export const getUserBookingsRequest = async (username: string) => {
         const { data } = await api<UserBookingsResponse>(`/users/${username}/bookings`);
         return data.items;
     } catch (error) {
-        const apiError = handleApiError(error, `/users/${username}/bookings`);
-        throw new Error(apiError.message);
+        console.error("Error fetching bookings:", error);
+        throw error || "Error al obtener las reservas del usuario";
     }
 }

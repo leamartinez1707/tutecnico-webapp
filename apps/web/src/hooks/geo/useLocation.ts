@@ -3,9 +3,6 @@ import { calculateDistance } from "@/lib/utils";
 import { Technicians } from "@/types";
 import { useEffect, useState } from "react";
 import { logger } from "@/utils/logger";
-import { useAuth } from "@/context/AuthContext";
-import { getGeoLocation } from "@/api/geo/geoLocationApi";
-import { countryInfo } from "@/utils";
 
 
 const useLocation = () => {
@@ -21,79 +18,6 @@ const useLocation = () => {
     const [hasRequestedLocation, setHasRequestedLocation] = useState(false);
 
     const { data: techniciansInfo = [] } = useTechnicians();
-    const { user } = useAuth();
-
-    // Inicializar ubicación desde el address del usuario autenticado
-    useEffect(() => {
-        const initializeUserLocation = async () => {
-            // Si ya tenemos ubicación o ya la solicitamos, no hacer nada
-            if (userLocation || hasRequestedLocation) return;
-            
-            // Si el usuario no está autenticado o no tiene address, no hacer nada
-            if (!user?.address) return;
-
-            try {
-                logger.info('Inicializando ubicación desde address del usuario', { address: user.address });
-                
-                // Extraer departamento del address y limpiar la dirección
-                // El formato puede variar: "Calle, Ciudad, Departamento" o "Calle, Ciudad, País"
-                const parts = user.address.split(',').map(part => part.trim());
-                
-                // Buscar qué parte del address corresponde a un departamento válido
-                let department: string | undefined;
-                let cleanAddressParts: string[] = [];
-                
-                for (const part of parts) {
-                    // Si es "Uruguay" o "uruguay", lo ignoramos
-                    if (part.toLowerCase() === 'uruguay') {
-                        continue;
-                    }
-                    
-                    // Si es un departamento válido, lo guardamos y lo incluimos en el address
-                    const validDept = countryInfo.find(
-                        dept => dept.name.toLowerCase() === part.toLowerCase()
-                    );
-                    if (validDept) {
-                        department = validDept.name;
-                        logger.debug('Departamento válido encontrado', { department });
-                    }
-                    
-                    cleanAddressParts.push(part);
-                }
-                
-                // Usar el address limpio (sin "Uruguay")
-                const cleanAddress = cleanAddressParts.join(', ');
-                logger.debug('Address limpio para geocodificación', { cleanAddress, department });
-                
-                // Geocodificar la dirección
-                const geoData = await getGeoLocation(cleanAddress, department);
-                
-                if (geoData && geoData.length > 0) {
-                    const { puntoY, puntoX } = geoData[0];
-                    const coordinates: [number, number] = [puntoY, puntoX];
-                    
-                    logger.info('Ubicación del usuario obtenida desde address', { 
-                        coordinates, 
-                        address: cleanAddress 
-                    });
-                    
-                    setUserLocation(coordinates);
-                    setCenterMapLocation(coordinates);
-                    setHasRequestedLocation(true);
-                } else {
-                    logger.warn('No se pudo geocodificar el address del usuario', { 
-                        cleanAddress, 
-                        department,
-                        geoDataLength: geoData?.length 
-                    });
-                }
-            } catch (error) {
-                logger.error('Error al geocodificar address del usuario', error);
-            }
-        };
-
-        initializeUserLocation();
-    }, [user?.address, userLocation, hasRequestedLocation]);
 
     // Función para solicitar ubicación (puede ser llamada manualmente)
     const requestUserLocation = () => {

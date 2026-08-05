@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException, NotFoundException, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
-import { User } from 'src/users/user.entity';
+import { User, UserRole } from 'src/users/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ResponseLoginDto } from './dto/response-login.dto';
@@ -9,6 +9,7 @@ import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { ConfigService } from '@nestjs/config';
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
+import { GoogleProfile } from './google.strategy';
 
 @Injectable()
 export class AuthService {
@@ -153,5 +154,45 @@ export class AuthService {
     user.emailVerificationToken = null;
     await this.usersRepository.save(user);
     return { success: true };
+  }
+
+  async googleSignIn(profile: GoogleProfile): Promise<ResponseLoginDto> {
+    let user = await this.usersRepository.findOne({ where: { email: profile.email } });
+
+    if (!user) {
+      const username = profile.email.split('@')[0];
+      const salt = await bcrypt.genSalt();
+      const randomPassword = randomBytes(16).toString('hex');
+
+      user = this.usersRepository.create({
+        username,
+        email: profile.email,
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        password: await bcrypt.hash(randomPassword, salt),
+        phone: '',
+        address: '',
+        role: UserRole.USUARIO,
+      });
+
+      await this.usersRepository.save(user);
+    }
+
+    const payload = { sub: user.id, username: user.username, role: user.role, tokenVersion: user.tokenVersion ?? 0 };
+    const access_token = await this.jwtService.signAsync(payload, {
+      secret: this.configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
+      expiresIn: this.configService.get<string>('JWT_ACCESS_TOKEN_EXPIRES_IN') || '10m',
+    });
+    const refresh_token = await this.jwtService.signAsync(payload, {
+      secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
+      expiresIn: this.configService.get<string>('JWT_REFRESH_TOKEN_EXPIRES_IN') || '7d',
+    });
+
+    const { password, ...userResponse } = user;
+    return {
+      access_token,
+      refresh_token,
+      user: userResponse,
+    };
   }
 }

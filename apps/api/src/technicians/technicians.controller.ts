@@ -15,7 +15,7 @@ import { RolesGuard } from 'src/guards/roles.guard';
 import { UserRole } from 'src/users/user.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
-import { ApiBearerAuth, ApiOkResponse, ApiQuery, ApiTags, ApiUnauthorizedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiBadRequestResponse, ApiOperation, ApiExtension } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiQuery, ApiTags, ApiUnauthorizedResponse, ApiForbiddenResponse, ApiNotFoundResponse, ApiBadRequestResponse, ApiOperation, ApiExtension, ApiCreatedResponse } from '@nestjs/swagger';
 import { ErrorResponseDto } from 'src/common/dto/error-response.dto';
 import { TechnicianFilterDto } from './dto/technician-filter.dto';
 import { BookingsService } from 'src/bookings/bookings.service';
@@ -25,6 +25,7 @@ import { ResponseReviewDto } from 'src/reviews/dto/response-review.dto';
 import { PaginatedTechniciansResponseDto } from './dto/paginated-technicians-response.dto';
 import { PaginatedBookingsResponseDto } from 'src/bookings/dto/paginated-bookings-response.dto';
 import { PaginatedReviewsResponseDto } from 'src/reviews/dto/paginated-reviews-response.dto';
+import { CreatePaymentProofDto } from './dto/create-payment-proof.dto';
 
 @ApiTags('Technicians')
 @Controller('technicians')
@@ -159,6 +160,61 @@ export class TechniciansController {
   }
 
   // Utilities for membership management (could be restricted to admins later)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.TECNICO, UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Estado de membresía', description: 'Access: Roles(TECNICO, ADMIN) con ownership' })
+  @ApiExtension('x-roles', ['TECNICO', 'ADMIN'])
+  @ApiOkResponse({ description: 'Membership status returned' })
+  @ApiUnauthorizedResponse({ type: ErrorResponseDto })
+  @ApiForbiddenResponse({ type: ErrorResponseDto })
+  @ApiNotFoundResponse({ type: ErrorResponseDto })
+  @CheckOwnership('TechniciansService', { ownerFields: ['user.id'] })
+  @Get(':id/membership/status')
+  async getMembershipStatus(@Param('id') id: number) {
+    return this.techniciansService.findMembershipStatus(id);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.TECNICO)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Subir comprobante de pago', description: 'Access: Roles(TECNICO) con ownership' })
+  @ApiExtension('x-roles', ['TECNICO'])
+  @ApiCreatedResponse({ description: 'Payment proof stored' })
+  @ApiBadRequestResponse({ type: ErrorResponseDto })
+  @ApiUnauthorizedResponse({ type: ErrorResponseDto })
+  @ApiForbiddenResponse({ type: ErrorResponseDto })
+  @ApiNotFoundResponse({ type: ErrorResponseDto })
+  @CheckOwnership('TechniciansService', { ownerFields: ['user.id'] })
+  @Post(':id/membership/proof')
+  async submitPaymentProof(
+    @Param('id') id: number,
+    @Body() dto: CreatePaymentProofDto,
+  ) {
+    return this.techniciansService.submitPaymentProof(id, dto);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.TECNICO, UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Historial de membresía', description: 'Access: Roles(TECNICO, ADMIN) con ownership. Mergea pagos de MercadoPago y comprobantes manuales.' })
+  @ApiExtension('x-roles', ['TECNICO', 'ADMIN'])
+  @ApiOkResponse({ description: 'Paginated membership history' })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiUnauthorizedResponse({ type: ErrorResponseDto })
+  @ApiForbiddenResponse({ type: ErrorResponseDto })
+  @ApiNotFoundResponse({ type: ErrorResponseDto })
+  @CheckOwnership('TechniciansService', { ownerFields: ['user.id'] })
+  @Get(':id/membership/history')
+  async getMembershipHistory(
+    @Param('id') id: number,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return this.techniciansService.findMembershipHistory(id, page ? Number(page) : 1, limit ? Number(limit) : 20);
+  }
+
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiBearerAuth()

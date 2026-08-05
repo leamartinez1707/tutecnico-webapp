@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "../ui/button";
 import {
-    Menu, X, MapPin, Home, Search,
+    Menu, X, MapPin,
     ContactIcon, User, Star, LayoutDashboard, Calendar
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -30,8 +30,8 @@ export function Header() {
 
     // Items de navegación para usuarios autenticados
     const userNavItems = [
-        { label: "Inicio", path: publicPaths.home, icon: Home },
-        { label: "Buscar", path: userPaths.map, icon: Search },
+        { label: "Inicio", path: publicPaths.home, icon: MapPin },
+        { label: "Buscar", path: userPaths.map, icon: ContactIcon },
         { label: "Perfil", path: userPaths.profile, icon: User },
         { label: "Reservas", path: userPaths.bookings, icon: Calendar },
         { label: "Favoritos", path: userPaths.favorites, icon: Star },
@@ -39,8 +39,7 @@ export function Header() {
     ];
 
     const technicianNavItems = [
-        { label: "Inicio", path: publicPaths.home, icon: Home },
-        { label: "Mapa", path: userPaths.map, icon: MapPin },
+        { label: "Inicio", path: publicPaths.home, icon: MapPin },
         { label: "Panel", path: technicianPaths.dashboard, icon: LayoutDashboard },
         { label: "Reservas", path: technicianPaths.bookings, icon: Calendar },
         { label: "Contacto", path: publicPaths.contact, icon: ContactIcon },

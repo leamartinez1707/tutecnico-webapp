@@ -40,12 +40,10 @@ export const UsersProvider = ({ children }: UsersProviderProps) => {
         try {
             const data = await updateUserDataRequest(id, userData);
             if (data) {
-                // Actualizar el usuario en el contexto con los nuevos datos
                 setUser({
                     ...user,
                     ...data,
                 });
-                logger.info('Datos de usuario actualizados', { userId: id, updatedFields: Object.keys(userData) });
             }
         } catch (error) {
             logger.error('Error al actualizar datos de usuario', error);

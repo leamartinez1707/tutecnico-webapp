@@ -701,16 +701,20 @@ const TechnicianCard = ({ tech, index, onClick, onBookingClick }: TechnicianCard
                         <div className="flex items-center gap-3">
                             <div className="flex items-center gap-1">
                                 <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                                <span className="text-white text-sm">{Number(tech.averageRating).toFixed(1)}</span>
+                                <span className="text-white text-sm">{tech.averageRating}</span>
                                 {/* <span className="text-zinc-500 text-xs">({techReviews.length})</span> */}
                             </div>
                         </div>
                         <div className="space-x-2">
                             <Button
-                                disabled={!isAuthenticated}
                                 size="sm"
                                 onClick={(e) => {
                                     e.stopPropagation();
+                                    if (!isAuthenticated) {
+                                        localStorage.setItem('pendingBookingTechnician', tech.username);
+                                        navigate('/login');
+                                        return;
+                                    }
                                     onBookingClick();
                                 }}
                                 className="bg-blue-600 text-white hover:bg-blue-700 text-xs h-7"

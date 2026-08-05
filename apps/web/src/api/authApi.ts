@@ -1,6 +1,7 @@
+import { isAxiosError } from "axios";
 import type { SignIn, SignUp, SignUpUser } from "../types";
 import api from "./axios";
-import { handleApiError } from "../utils/errorHandler";
+import { logger } from "../utils/logger";
 
 export const signUpRequest = async (formData: SignUp) => {
     try {
@@ -10,22 +11,25 @@ export const signUpRequest = async (formData: SignUp) => {
         }
         return data
     } catch (error) {
-        const apiError = handleApiError(error, '/technicians');
-        throw new Error(apiError.message);
+        logger.apiError('/technicians', error);
+        if (isAxiosError(error)) {
+            return error.response?.data.message ?? 'Error al registrar el usuario'
+        }
+        if (error instanceof Error) {
+            throw new Error(error.message[0] || 'Error al registrar el técnico')
+        } else {
+            throw new Error('Error desconocido al registrar el técnico')
+        }
     }
+
 }
 
 export const signUpUserRequest = async (formData: SignUpUser) => {
-    try {
-        const { data } = await api.post('users', formData)
-        if (!data) {
-            throw new Error('No hay datos en la respuesta de registro')
-        }
-        return data
-    } catch (error) {
-        const apiError = handleApiError(error, '/users');
-        throw new Error(apiError.message);
+    const { data } = await api.post('users', formData)
+    if (!data) {
+        throw new Error('No hay datos en la respuesta de registro')
     }
+    return data
 }
 
 export const signInRequest = async (formData: SignIn) => {
@@ -33,8 +37,12 @@ export const signInRequest = async (formData: SignIn) => {
         const { data } = await api.post('/auth/login', formData)
         return data;
     } catch (error) {
-        const apiError = handleApiError(error, '/auth/login');
-        throw new Error(apiError.message);
+        logger.apiError('/auth/login', error);
+        if (error instanceof Error) {
+            throw new Error(error.message[0] || 'Error al iniciar sesión')
+        } else {
+            throw new Error('Error desconocido al iniciar sesión')
+        }
     }
 }
 
@@ -51,18 +59,17 @@ export const resetPasswordRequest = async (email: string) => {
         await api.post('/auth/request-password-reset', { email });
         return true;
     } catch (error) {
-        const apiError = handleApiError(error, '/auth/request-password-reset');
-        throw new Error(apiError.message);
+        logger.apiError('/auth/reset-password', error);
+        throw new Error('Error al restablecer la contraseña');
     }
 }
-
 export const confirmNewPasswordRequest = async (token: string, newPassword: string) => {
     try {
         await api.post('/auth/reset-password', { token, newPassword });
         return true;
     } catch (error) {
-        const apiError = handleApiError(error, '/auth/reset-password');
-        throw new Error(apiError.message);
+        logger.apiError('/auth/reset-password', error);
+        throw new Error('Error al restablecer la contraseña');
     }
 }
 
@@ -72,8 +79,8 @@ export const googleAuthRequest = async () => {
         console.log(response);
         return true;
     } catch (error) {
-        const apiError = handleApiError(error, '/auth/google');
-        throw new Error(apiError.message);
+        logger.error('auth/google', error);
+        throw new Error('Error al autenticar con Google');
     }
 }
 

@@ -1,7 +1,7 @@
 import ErrorMessage from '@/components/Error/Message';
 import { SignUp, SignUpUser } from '@/types';
 import { countryInfo } from '@/utils';
-import { Briefcase, Map } from 'lucide-react';
+import { Briefcase, Map, MapPinned } from 'lucide-react';
 import { Dispatch, useState } from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { useSpecializations } from '@/hooks/queries/useSpecializations';
@@ -9,6 +9,7 @@ import { useSpecializations } from '@/hooks/queries/useSpecializations';
 type TechFormProps = {
 
     setSelectedDepartment: Dispatch<React.SetStateAction<string>>
+    selectedDepartment: string;
     register: UseFormRegister<SignUp | SignUpUser>;
     selectedRole: string;
     setShowProfessions: Dispatch<React.SetStateAction<boolean>>
@@ -18,7 +19,7 @@ type TechFormProps = {
     errors: FieldErrors<SignUp | SignUpUser>
 }
 
-const TechForm = ({ setSelectedDepartment, register, selectedRole, setShowProfessions, showProfessions, services, setServices, errors }: TechFormProps) => {
+const TechForm = ({ setSelectedDepartment, selectedDepartment, register, selectedRole, setShowProfessions, showProfessions, services, setServices, errors }: TechFormProps) => {
 
     const { data: specializations } = useSpecializations();
     const [selectedSpecialization, setSelectedSpecialization] = useState<string>("");
@@ -27,7 +28,7 @@ const TechForm = ({ setSelectedDepartment, register, selectedRole, setShowProfes
         <div className="space-y-6">
             {/* Mensaje informativo */}
             <div className="bg-blue-900/20 border border-blue-700/30 rounded-lg p-3 flex items-start gap-2">
-                <svg className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                 </svg>
                 <p className="text-xs sm:text-sm text-blue-300">
@@ -35,27 +36,56 @@ const TechForm = ({ setSelectedDepartment, register, selectedRole, setShowProfes
                 </p>
             </div>
 
-            <div className="space-y-2">
-                <label htmlFor="department" className="block text-zinc-200 font-semibold text-sm">Departamento *</label>
-                <div className="relative group">
-                    <div className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-12 text-zinc-500 group-focus-within:text-emerald-400 transition-colors">
-                        <Map className="size-5" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                    <label htmlFor="department" className="block text-zinc-200 font-semibold text-sm">Departamento *</label>
+                    <div className="relative group">
+                        <div className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-12 text-zinc-500 group-focus-within:text-emerald-400 transition-colors">
+                            <Map className="size-5" />
+                        </div>
+                        <select
+                            onChange={(e) => setSelectedDepartment(e.target.value)}
+                            className="text-sm sm:text-base text-white pl-12 pr-10 rounded-lg border-2 border-zinc-700/50 bg-zinc-800/50 hover:bg-zinc-800/30 w-full py-3 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200 hover:border-zinc-600 appearance-none cursor-pointer"
+                            name="department"
+                            id="department"
+                        >
+                            <option value="">Seleccionar departamento</option>
+                            {countryInfo.map((info) => (
+                                <option className='bg-zinc-800' key={info.id} value={info.name.toLowerCase()}>{info.name}</option>
+                            ))}
+                        </select>
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <svg className="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
                     </div>
-                    <select
-                        onChange={(e) => setSelectedDepartment(e.target.value)}
-                        className="text-sm sm:text-base text-white pl-12 pr-10 rounded-lg border-2 border-zinc-700/50 bg-zinc-800/50 hover:bg-zinc-800/30 w-full py-3 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200 hover:border-zinc-600 appearance-none cursor-pointer"
-                        name="department"
-                        id="department"
-                    >
-                        <option value="">Seleccionar departamento</option>
-                        {countryInfo.map((info) => (
-                            <option className='bg-zinc-800' key={info.id} value={info.name.toLowerCase()}>{info.name}</option>
-                        ))}
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                        <svg className="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
+                </div>
+
+                <div className="space-y-2">
+                    <label htmlFor="neighborhood" className="block text-zinc-200 font-semibold text-sm">Barrio</label>
+                    <div className="relative group">
+                        <div className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-12 text-zinc-500 group-focus-within:text-emerald-400 transition-colors">
+                            <MapPinned className="size-5" />
+                        </div>
+                        <select
+                            className="text-sm sm:text-base text-white pl-12 pr-10 rounded-lg border-2 border-zinc-700/50 bg-zinc-800/50 w-full py-3 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-200 hover:border-zinc-600 appearance-none cursor-pointer"
+                            name="neighborhood"
+                            id="neighborhood"
+                            disabled={!selectedDepartment}
+                        >
+                            <option value="">
+                                {selectedDepartment ? "Seleccionar barrio" : "Primero selecciona departamento"}
+                            </option>
+                            {countryInfo.find((info) => info.name.toLowerCase() === selectedDepartment)?.towns.map((neighborhood) => (
+                                <option className='bg-zinc-800' key={neighborhood.id} value={neighborhood.name.toLowerCase()}>{neighborhood.name}</option>
+                            ))}
+                        </select>
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <svg className="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>

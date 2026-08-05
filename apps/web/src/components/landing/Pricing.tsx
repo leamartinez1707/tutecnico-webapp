@@ -189,7 +189,7 @@ export function Pricing() {
                     </p>
                     <Button
                         variant="link"
-                        onClick={() => window.open(createWhatsAppUrl("Hola, quiero saber más sobre ServyFix"), '_blank')}
+                        onClick={() => window.open(createWhatsAppUrl("Hola, quiero saber más sobre TechFinder"), '_blank')}
                         className="text-blue-400 hover:text-blue-300"
                     >
                         Hablá con nuestro equipo →

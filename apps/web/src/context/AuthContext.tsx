@@ -20,7 +20,6 @@ interface AuthContextType {
     getTechProfile: (username: string) => void;
     errors: string[];
     setErrors: (errors: string[]) => void;
-    checkProfileCompletion: (user: LoggedUser) => boolean;
 }
 
 // Define los valores predeterminados del contexto
@@ -149,19 +148,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }, []);
 
-    // Función para verificar si el perfil está completo
-    const checkProfileCompletion = useCallback((user: LoggedUser): boolean => {
-        // Los técnicos siempre tienen perfil completo al registrarse
-        if (user.technician) return true;
-        
-        // Los usuarios necesitan dirección y teléfono
-        return !!(user.address && user.phone);
-    }, []);
-
-    // Wrapper de setUser que sincroniza entre pestañas y actualiza autenticación
+    // Wrapper de setUser que sincroniza entre pestañas
     const setUserAndSync = useCallback((newUser: LoggedUser | null) => {
         setUser(newUser);
-        setIsAuthenticated(!!newUser);
 
         // Sincronizar con otras pestañas
         if (newUser) {
@@ -249,8 +238,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             logout,
             getTechProfile,
             errors,
-            setErrors,
-            checkProfileCompletion
+            setErrors
         }
         }>
             {children}

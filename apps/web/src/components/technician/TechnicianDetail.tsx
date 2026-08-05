@@ -56,7 +56,7 @@ export function TechnicianDetail() {
     const { setSelectedTechnician, setAddBookingModal, addBookingModal, selectedTechnician, setBookingData, handleAddBooking } = useBookingHandler();
 
     const reviewCount = reviews.length;
-    const rating = technician?.averageRating ? Number(technician.averageRating).toFixed(1) : '0.0'
+    const rating = technician?.averageRating
 
     const handleBooking = () => {
         // Prevenir que un técnico pueda reservar

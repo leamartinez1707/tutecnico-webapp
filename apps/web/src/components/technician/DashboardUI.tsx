@@ -1,4 +1,4 @@
-import { memo, useMemo } from "react"
+import { memo } from "react"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { useUsers } from "@/context/UsersContext"
 import { Briefcase, Phone, Mail, Home, Edit, Save, X, ClipboardCheckIcon, PencilIcon } from "lucide-react"
-import { capitalizeFirstLetter } from "@/utils"
+import { capitalizeFirstLetter, professions } from "@/utils"
 import LeafletMap from "@/components/map/LeaFlet"
 import { Rating } from "@mui/material"
 import { Label } from "@/components/ui/label"
@@ -24,17 +24,6 @@ const DashboardUi = memo(() => {
     const navigate = useNavigate();
 
     const { handleSavePersonal, handleSaveTechnical, handleAddService, handleAddSpecialization, handleRemoveService, editingPersonal, setEditingPersonal, editingTechnical, setEditingTechnical, editedUser, setEditedUser, editedTechnical, setEditedTechnical, newService, setNewService, newSpecialization, setNewSpecialization, technician } = useTechnicianProfile();
-
-    // Obtener profesiones disponibles según la especialización actual del técnico
-    const availableProfessions = useMemo(() => {
-        if (!specializations?.items || !technician?.specialization) return [];
-        
-        const currentSpec = specializations.items.find(
-            spec => spec.name.toLowerCase() === technician.specialization.toLowerCase()
-        );
-        
-        return currentSpec?.professions || [];
-    }, [specializations, technician]);
 
     // Si no hay datos de técnico, mostrar un mensaje
     if (!technician) {
@@ -395,23 +384,20 @@ const DashboardUi = memo(() => {
                                                     onChange={(e) => setNewService(e.target.value)}
                                                 >
                                                     <option value="" disabled>
-                                                        {availableProfessions.length === 0 
-                                                            ? "No hay profesiones disponibles" 
-                                                            : "Seleccionar nuevo servicio"}
+                                                        Seleccionar nuevo servicio
                                                     </option>
-                                                    {availableProfessions
-                                                        .filter((profession) => !editedTechnical.services.includes(profession.name.toLowerCase()))
-                                                        .sort((a, b) => a.name.localeCompare(b.name))
-                                                        .map((profession) => (
-                                                            <option key={profession.id} value={profession.name.toLowerCase()}>
-                                                                {profession.name}
+                                                    {professions
+                                                        .filter((service) => !editedTechnical.services.includes(service.nombre.toLowerCase()))
+                                                        .sort((a, b) => a.nombre.localeCompare(b.nombre))
+                                                        .map((service) => (
+                                                            <option key={service.id} value={service.nombre.toLowerCase()}>
+                                                                {service.nombre}
                                                             </option>
                                                         ))}
                                                 </select>
                                                 <Button
                                                     className="hover:cursor-pointer bg-green-600 text-white hover:bg-green-700"
-                                                    onClick={handleAddService}
-                                                    disabled={availableProfessions.length === 0}>
+                                                    onClick={handleAddService}>
                                                     Añadir
                                                 </Button>
                                             </div>

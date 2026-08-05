@@ -1,11 +1,9 @@
-import { Dispatch, useState } from 'react'
+import { Dispatch } from 'react'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ContactFormData, LoggedUser } from '@/types'
 import { Edit, X, Save, Mail, Phone, MapPin } from 'lucide-react';
-import { uruguayanPhoneRegex } from '@/schemas/user-schema';
-import { cn } from '@/lib/utils';
 
 export interface UserContactDataProps {
     isEditingContact: boolean;
@@ -17,44 +15,6 @@ export interface UserContactDataProps {
 }
 
 const UserContactData = ({ editedContact, handleSaveContact, isEditingContact, setEditedContact, setIsEditingContact, user }: UserContactDataProps) => {
-    // Estados para validación
-    const [phoneError, setPhoneError] = useState('');
-    const [addressError, setAddressError] = useState('');
-
-    // Validar teléfono en tiempo real
-    const handlePhoneChange = (value: string) => {
-        setEditedContact({ ...editedContact, phone: value });
-        
-        if (value.length > 0 && !uruguayanPhoneRegex.test(value)) {
-            setPhoneError('Formato inválido. Ej: 099 123 456');
-        } else {
-            setPhoneError('');
-        }
-    };
-
-    // Manejar cambio de dirección
-    const handleAddressChange = (value: string) => {
-        setEditedContact({ ...editedContact, address: value });
-        
-        if (value.length > 0 && value.length < 8) {
-            setAddressError('La dirección debe tener al menos 8 caracteres');
-        } else {
-            setAddressError('');
-        }
-    };
-
-    // Resetear errores al cancelar edición
-    const handleCancelEdit = () => {
-        setEditedContact({
-            email: user?.email || "",
-            phone: user?.phone || "",
-            address: user?.address || "",
-        });
-        setIsEditingContact(false);
-        setPhoneError('');
-        setAddressError('');
-    };
-
     return (
         <div className="space-y-6">
             {/* Header con botón */}
@@ -76,7 +36,14 @@ const UserContactData = ({ editedContact, handleSaveContact, isEditingContact, s
                             <Button 
                                 variant="outline" 
                                 size="sm" 
-                                onClick={handleCancelEdit}
+                                onClick={() => {
+                                    setEditedContact({
+                                        email: user?.email || "",
+                                        phone: user?.phone || "",
+                                        address: user?.address || "",
+                                    });
+                                    setIsEditingContact(false);
+                                }}
                                 className="flex items-center gap-2"
                             >
                                 <X className="w-4 h-4" />
@@ -159,51 +126,30 @@ const UserContactData = ({ editedContact, handleSaveContact, isEditingContact, s
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
-                                    Teléfono <span className="text-red-500">*</span>
+                                    Teléfono
                                 </Label>
                                 <Input
                                     id="phone"
                                     type="tel"
                                     value={editedContact.phone}
-                                    onChange={(e) => handlePhoneChange(e.target.value)}
-                                    className={cn(
-                                        "mt-1",
-                                        phoneError && "border-red-500 focus-visible:ring-red-500"
-                                    )}
-                                    placeholder="099 123 456"
+                                    onChange={(e) => setEditedContact({ ...editedContact, phone: e.target.value })}
+                                    className="mt-1"
+                                    placeholder="+598 99 123 456"
                                 />
-                                {phoneError && (
-                                    <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
-                                        <X className="w-3 h-3" />
-                                        {phoneError}
-                                    </p>
-                                )}
-                                <p className="mt-1 text-xs text-gray-500">
-                                    Formatos: 099123456 o 099 123 456
-                                </p>
                             </div>
 
                             <div>
                                 <Label htmlFor="address" className="text-sm font-medium text-gray-700">
-                                    Dirección <span className="text-red-500">*</span>
+                                    Dirección
                                 </Label>
                                 <Input
                                     id="address"
                                     type="text"
                                     value={editedContact.address}
-                                    onChange={(e) => handleAddressChange(e.target.value)}
-                                    className={cn(
-                                        "mt-1",
-                                        addressError && "border-red-500 focus-visible:ring-red-500"
-                                    )}
-                                    placeholder="Ej: 18 de Julio 1234"
+                                    onChange={(e) => setEditedContact({ ...editedContact, address: e.target.value })}
+                                    className="mt-1"
+                                    placeholder="Tu dirección completa"
                                 />
-                                {addressError && (
-                                    <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
-                                        <X className="w-3 h-3" />
-                                        {addressError}
-                                    </p>
-                                )}
                             </div>
                         </div>
                     </div>

@@ -1,21 +1,17 @@
+import { isAxiosError } from "axios";
 import api from "./axios";
 import { EditLocationData, EditProfileData, EditTechnicalData, Technicians } from "@/types";
 import { GetTechniciansResponse } from "./technician/technicianResponse-interface";
-import { handleApiError } from "@/utils";
+import { logger } from "@/utils";
 
 export const getTechniciansRequest = async () => {
-    try {
-        const limit = 1000;
-        const { data } = await api<GetTechniciansResponse>(`/technicians?page=1&limit=${limit}&sort=id&order=DESC&membershipActive=true`);
-        if (!data || !data.items) {
-            throw new Error('Error al obtener los técnicos desde la API');
-        }
-        console.log(`Obtenidos ${data.items.length} técnicos desde la API`);
-        return data.items;
-    } catch (error) {
-        const apiError = handleApiError(error, '/technicians');
-        throw new Error(apiError.message);
+    const limit = 1000;
+    const { data } = await api<GetTechniciansResponse>(`/technicians?page=1&limit=${limit}&sort=id&order=DESC&membershipActive=true`);
+    if (!data || !data.items) {
+        throw new Error('Error al obtener los técnicos desde la API');
     }
+    logger.debug(`Obtenidos ${data.items.length} técnicos desde la API`);
+    return data.items;
 };
 
 export const getTechDataRequest = async (username: string) => {
@@ -26,8 +22,10 @@ export const getTechDataRequest = async (username: string) => {
         }
         return data as Technicians;
     } catch (error) {
-        const apiError = handleApiError(error, `/technicians/${username}`);
-        throw new Error(apiError.message);
+        console.log(error)
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
     }
 }
 
@@ -40,8 +38,10 @@ export const getMyDataRequest = async () => {
         }
         return data;
     } catch (error) {
-        const apiError = handleApiError(error, '/technicians/me');
-        throw new Error(apiError.message);
+        console.log(error)
+        if (isAxiosError(error) && error.message) {
+            throw new Error(error.message);
+        }
     }
 }
 
@@ -53,8 +53,10 @@ export const updateProfileDataRequest = async (id: number, userData: EditProfile
         }
         return data;
     } catch (error) {
-        const apiError = handleApiError(error, `/technicians/${id}`);
-        throw new Error(apiError.message);
+        console.log(error)
+        if (isAxiosError(error) && error.message) {
+            throw new Error(error.message);
+        }
     }
 }
 
@@ -66,11 +68,12 @@ export const updateTechnicalDataRequest = async (id: number, userData: EditTechn
         }
         return data;
     } catch (error) {
-        const apiError = handleApiError(error, `/technicians/${id}`);
-        throw new Error(apiError.message);
+        console.log(error)
+        if (isAxiosError(error) && error.message) {
+            throw new Error(error.message);
+        }
     }
 }
-
 export const updateLocationDataRequest = async (id: number, userData: EditLocationData) => {
     try {
         const { data } = await api.put(`/technicians/${id}`, userData);
@@ -79,8 +82,10 @@ export const updateLocationDataRequest = async (id: number, userData: EditLocati
         }
         return data;
     } catch (error) {
-        const apiError = handleApiError(error, `/technicians/${id}`);
-        throw new Error(apiError.message);
+        console.log(error)
+        if (isAxiosError(error) && error.message) {
+            throw new Error(error.message);
+        }
     }
 }
 
@@ -93,8 +98,11 @@ export const updateTechnicianProfilePhotoRequest = async (technicianId: number, 
         console.log("Updated technician profile photo:", data);
         return data;
     } catch (error) {
-        const apiError = handleApiError(error, `/technicians/${technicianId}`);
-        throw new Error(apiError.message);
+        console.error("Error updating technician profile photo:", error);
+        if (isAxiosError(error) && error.message) {
+            throw new Error(error.message);
+        }
+        throw error;
     }
 }
 
@@ -106,7 +114,10 @@ export const removeTechnicianProfilePhotoRequest = async (technicianId: number) 
         }
         return data;
     } catch (error) {
-        const apiError = handleApiError(error, `/technicians/${technicianId}`);
-        throw new Error(apiError.message);
+        console.error("Error removing technician profile photo:", error);
+        if (isAxiosError(error) && error.message) {
+            throw new Error(error.message);
+        }
+        throw error;
     }
 }
