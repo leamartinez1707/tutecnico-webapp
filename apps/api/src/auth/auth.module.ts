@@ -26,7 +26,22 @@ import { GoogleStrategy } from './google.strategy';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, JwtStrategy, GoogleStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    {
+      provide: GoogleStrategy,
+      useFactory: (configService: ConfigService) => {
+        const clientID = configService.get<string>('GOOGLE_CLIENT_ID');
+        const clientSecret = configService.get<string>('GOOGLE_CLIENT_SECRET');
+        if (clientID && clientSecret) {
+          return new GoogleStrategy(configService);
+        }
+        return null;
+      },
+      inject: [ConfigService],
+    },
+  ],
   controllers: [AuthController],
   exports: [AuthService],
 })

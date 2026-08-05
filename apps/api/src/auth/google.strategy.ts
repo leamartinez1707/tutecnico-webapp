@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
 import { ConfigService } from '@nestjs/config';
@@ -8,6 +8,16 @@ export interface GoogleProfile {
   email: string;
   firstName: string;
   lastName: string;
+}
+
+export function isGoogleOAuthConfigured(configService: ConfigService): boolean {
+  const clientID = configService.get<string>('GOOGLE_CLIENT_ID');
+  const clientSecret = configService.get<string>('GOOGLE_CLIENT_SECRET');
+  const configured = !!(clientID && clientSecret);
+  if (!configured) {
+    Logger.warn('Google OAuth is not configured — Google login endpoints will be unavailable', 'GoogleStrategy');
+  }
+  return configured;
 }
 
 @Injectable()
