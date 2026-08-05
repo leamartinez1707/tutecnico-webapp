@@ -1,0 +1,1 @@
+export type MembershipType = 'NONE' | 'TRIAL' | 'PAID';
