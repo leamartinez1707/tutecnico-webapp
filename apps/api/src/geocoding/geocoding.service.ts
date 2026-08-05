@@ -1,32 +1,42 @@
-import { Injectable } from '@nestjs/common';
-import { Client } from '@googlemaps/google-maps-services-js';
-import { ConfigService, ConfigModule } from '@nestjs/config';
+import { Injectable, Logger } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 
-ConfigModule.forRoot();
+interface IdeUyResult {
+  puntoY: number;
+  puntoX: number;
+  direccion: string;
+}
 
 @Injectable()
 export class GeocodingService {
-    private client: Client;
-    private configService: ConfigService;
+  private readonly logger = new Logger(GeocodingService.name);
+  private readonly baseUrl = 'https://direcciones.ide.uy/api/v0/geocode/BusquedaDireccion';
 
-    constructor() {
-        this.client = new Client({});
-        this.configService = new ConfigService();
+  // Coordenadas default de Montevideo como fallback
+  private readonly DEFAULT_COORDS = { lat: -34.9011, lng: -56.1645 };
+
+  constructor(private readonly httpService: HttpService) {}
+
+  async getCoordinates(address: string): Promise<{ lat: number; lng: number }> {
+    try {
+      const encodedAddress = encodeURIComponent(address);
+      const url = `${this.baseUrl}?calle=${encodedAddress}`;
+
+      const response = await firstValueFrom(
+        this.httpService.get<IdeUyResult[]>(url, { timeout: 5000 })
+      );
+
+      if (response.data && response.data.length > 0) {
+        const result = response.data[0];
+        return { lat: result.puntoY, lng: result.puntoX };
+      }
+
+      this.logger.warn(`No se encontraron coordenadas para "${address}". Usando default.`);
+      return this.DEFAULT_COORDS;
+    } catch (error) {
+      this.logger.warn(`Geocoding falló para "${address}": ${error.message}. Usando default.`);
+      return this.DEFAULT_COORDS;
     }
-
-    async getCoordinates(address: string): Promise<{ lat: number, lng: number }> {
-        const response = await this.client.geocode({
-            params: {
-                address: address,
-                key: this.configService.get<string>('GOOGLE_API_KEY') || '',
-            },
-        });
-
-        if (response.data.results.length > 0) {
-            const location = response.data.results[0].geometry.location;
-            return { lat: location.lat, lng: location.lng };
-        } else {
-            throw new Error('No se encontraron coordenadas para la dirección proporcionada.');
-        }
-    }
+  }
 }

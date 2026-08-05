@@ -27,8 +27,8 @@
     "seed": "npx ts-node -P ./tsconfig.json -r tsconfig-paths/register ./src/scripts/seed.ts"
   },
   "dependencies": {
-    "@googlemaps/google-maps-services-js": "^3.4.0",
     "@mercadopago/sdk-react": "^1.0.6",
+    "@nestjs/axios": "^4.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.0",
     "@nestjs/core": "^11.0.1",

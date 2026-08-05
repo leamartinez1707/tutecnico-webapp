@@ -1,5 +1,4 @@
-import { Coordinates, Review } from "@/types"
-import axios from "axios"
+import { Review } from "@/types"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -46,23 +45,6 @@ export const averageRating = (reviews: Review[]) => {
   if (!reviews || reviews.length === 0) return 0
   const sum = reviews.reduce((acc, review) => acc + review.rating, 0)
   return Math.round((sum / reviews.length) * 10) / 10
-}
-
-export const getRouteDistance = async (start: Coordinates, end: Coordinates) => {
-  try {
-    const url = 'https://api.openrouteservice.org/v2/matrix/driving-car'
-    const response = await axios(url, {
-      params: {
-        api_key: process.env.VITE_OPEN_ROUTE_API,
-        start: `${start.lng},${start.lat}`, // Formato: lng,lat
-        end: `${end.lng},${end.lat}`,
-      }
-    })
-    return response
-  } catch (error) {
-    console.error('Error fetching route distance:', error)
-    throw error
-  }
 }
 
 export const getPasswordStrength = (password: string): { strength: number; text: string; color: string } => {

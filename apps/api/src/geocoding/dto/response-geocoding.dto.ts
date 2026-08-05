@@ -1,11 +1,11 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber } from "class-validator";
 
 export class ResponseGeocodingDTO {
     @IsNumber()
     @IsNotEmpty()
     lat: number;
 
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
     lng: number;
 }
