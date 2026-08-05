@@ -40,6 +40,9 @@ const TechnicianModal = ({ tech, isOpen, onClose, setAddBookingModal }: Technici
 
   const handleBooking = () => {
     if (!isAuthenticated) {
+      if (tech?.username) {
+        localStorage.setItem('pendingBookingTechnician', tech.username);
+      }
       navigate('/login');
       return;
     }

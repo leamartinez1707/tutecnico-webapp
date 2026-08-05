@@ -67,6 +67,9 @@ const DashboardCard = ({ tech, setAddBookingModal }: DashboardCardProps) => {
                     <Button
                         onClick={() => {
                             if (!isAuthenticated) {
+                                if (tech?.username) {
+                                    localStorage.setItem('pendingBookingTechnician', tech.username);
+                                }
                                 navigate('/login')
                                 return
                             }

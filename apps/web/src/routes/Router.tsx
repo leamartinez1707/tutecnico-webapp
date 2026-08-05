@@ -88,6 +88,12 @@ const Router: FC = () => {
             console.log('[Router] Redirigiendo a /tecnico/detalle/' + pendingTechnician + '?reserva=1');
             return <Navigate to={`/tecnico/detalle/${pendingTechnician}?reserva=1`} replace />;
         }
+        // Preservar ruta de retorno desde PrivateRoute
+        const returnTo = (location.state as { from?: string })?.from;
+        if (returnTo && returnTo !== '/login' && returnTo !== '/register') {
+            console.log('[Router] Redirigiendo a ruta de retorno:', returnTo);
+            return <Navigate to={returnTo} replace />;
+        }
         console.log('[Router] Redirigiendo a /mapa');
         return <Navigate to="/mapa" replace />;
     }
