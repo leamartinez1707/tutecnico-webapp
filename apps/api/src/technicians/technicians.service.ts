@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
+import { Injectable, BadRequestException, HttpException, HttpStatus, NotFoundException, Logger } from '@nestjs/common';
 import { CreateTechnicianDto } from './dto/create-technician.dto';
 import { Repository } from 'typeorm';
 import { Technician, MembershipType } from './technician.entity'
@@ -32,6 +32,7 @@ export interface MembershipHistoryItem {
 
 @Injectable()
 export class TechniciansService {
+  private readonly logger = new Logger(TechniciansService.name);
 
   constructor(
     @InjectRepository(Technician)
@@ -69,7 +70,10 @@ export class TechniciansService {
     technician.specialization = createTechnicianDto.specialization;
     technician.services = await this.servicesService.findOrCreateByNames(createTechnicianDto.services || []);
 
-    const map = await this.geocodingService.getCoordinates(createTechnicianDto.address);
+    const map = await this.geocodingService.getCoordinates(createTechnicianDto.address).catch((err) => {
+      this.logger.warn(`Geocoding failed for address "${createTechnicianDto.address}": ${err.message}. Using default coordinates.`);
+      return { lat: -34.9011, lng: -56.1645 }; // Montevideo defaults
+    });
     technician.latitude = map.lat;
     technician.longitude = map.lng;
 
