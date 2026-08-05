@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Booking } from '@/types';
-import { Star, XIcon } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { createReviewRequest } from '@/api/reviewsApi';
 import { enqueueSnackbar } from 'notistack';
 import { logger } from '@/utils/logger';
