@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogTitle } from '../ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../ui/dialog';
 import { Button } from '../ui/button';
 import './TechnicianModal.css';
 import { Technicians } from '@/types';
 import { useReviewsByTechnician } from '@/hooks';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { averageRating } from '@/lib/utils';
 import FavoriteIcon from '../user/FavoriteIcon';
 import UserAvatar from '../ui/UserAvatar';
 import {
@@ -35,8 +36,7 @@ const TechnicianModal = ({ tech, isOpen, onClose, setAddBookingModal }: Technici
   if (!tech) return null;
 
   const reviews = allReviews.length > 0 ? allReviews.filter(review => review.technician.id === tech.id) : [];
-  // TODO: Modificar a logar que el rating venga calculado desde el backend
-  const rating = reviews.reduce((acc, review) => acc + review.rating, 0) / (reviews.length || 1);
+  const rating = averageRating(reviews);
 
   const handleBooking = () => {
     if (!isAuthenticated) {
@@ -55,8 +55,7 @@ const TechnicianModal = ({ tech, isOpen, onClose, setAddBookingModal }: Technici
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        aria-describedby={undefined}
-        className="w-full max-w-md mx-auto p-0 gap-0 rounded overflow-hidden bg-white shadow-2xl border-0 max-h-[90vh] sm:max-h-none sm:rounded-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-300 sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=open]:slide-in-from-bottom-0 data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom">
+        className="tech-modal-content w-full max-w-md mx-auto p-0 gap-0 rounded overflow-hidden bg-white shadow-2xl border-0 max-h-[90vh] sm:max-h-none sm:rounded-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-300 sm:data-[state=closed]:slide-out-to-bottom-0 sm:data-[state=open]:slide-in-from-bottom-0 data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom">
         {/* Header with close button */}
         <DialogTitle className="relative">
           <button
@@ -75,6 +74,9 @@ const TechnicianModal = ({ tech, isOpen, onClose, setAddBookingModal }: Technici
             />
           </div>
         </DialogTitle>
+        <DialogDescription className="sr-only">
+          Perfil de {tech.firstName} {tech.lastName} — especialista en {tech.specialization}
+        </DialogDescription>
 
         {/* Content */}
         <div className="modal-content px-4 sm:px-6 pb-4 sm:pb-6 space-y-3 sm:space-y-4 overflow-y-auto max-h-[calc(90vh-8rem)] sm:max-h-none">
@@ -109,7 +111,7 @@ const TechnicianModal = ({ tech, isOpen, onClose, setAddBookingModal }: Technici
             <div className="flex items-center gap-1">
               <Star className="w-4 h-4 text-yellow-400 fill-current" />
               <span className="font-semibold text-gray-900">
-                {rating > 0 ? rating : 'No calculado'}
+                {rating > 0 ? rating.toFixed(1) : 'No calculado'}
               </span>
             </div>
             <span className="text-gray-500 text-sm">

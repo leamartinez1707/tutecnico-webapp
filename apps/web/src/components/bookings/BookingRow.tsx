@@ -89,21 +89,21 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
             <TableCell>
                 <div className="text-sm text-gray-600 flex items-center gap-1">
                     <MapPin className="h-3 w-3 text-gray-400" />
-                    <span className="truncate max-w-[120px]" title={displayData.address}>
+                    <span className="truncate max-w-[80px] md:max-w-[150px] lg:max-w-[200px]" title={displayData.address}>
                         {displayData.address}
                     </span>
                 </div>
             </TableCell>
             <TableCell>{getStatusBadge(booking.status as BookingStatus)}</TableCell>
             <TableCell>
-                <div className="flex gap-1">
+                <div className="flex flex-wrap gap-1">
                     {/* Botón Ver Detalles */}
                     <button
-                        onMouseDown={(e) => {
+                        onClick={(e) => {
                             e.stopPropagation();
                             handleViewDetails(booking);
                         }}
-                        className="h-8 px-2 text-blue-600 border border-blue-200 hover:bg-blue-50 rounded text-sm flex items-center justify-center"
+                        className="size-8 text-blue-600 border border-blue-200 hover:bg-blue-50 rounded text-sm flex items-center justify-center"
                         title="Ver detalles"
                     >
                         <Eye className="h-3 w-3" />
@@ -111,11 +111,11 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
 
                     {booking.status === "Pendiente" && (
                         <button
-                            onMouseDown={(e) => {
+                            onClick={(e) => {
                                 e.stopPropagation();
                                 handleDeleteBooking(booking.id);
                             }}
-                            className="h-8 px-2 text-red-600 border border-red-200 hover:bg-red-50 rounded text-sm flex items-center justify-center"
+                            className="size-8 text-red-600 border border-red-200 hover:bg-red-50 rounded text-sm flex items-center justify-center"
                             title="Borrar reserva"
                         >
                             <Trash className="h-3 w-3" />
@@ -139,22 +139,22 @@ const BookingRow = ({ booking, handleViewDetails, handleWriteReview, getStatusBa
                         <>
                             {technicianIsReviewed ? (
                                 <button
-                                    onMouseDown={(e) => {
+                                    onClick={(e) => {
                                         e.stopPropagation();
                                         handleViewDetails(booking);
                                     }}
-                                    className="h-8 px-2 text-green-600 border border-green-200 bg-green-50 rounded text-sm flex items-center justify-center gap-1"
+                                    className="size-8 text-green-600 border border-green-200 bg-green-50 rounded text-sm flex items-center justify-center gap-1"
                                     title="Ver tu reseña"
                                 >
                                     <Star className="h-3 w-3 fill-green-600" />
                                 </button>
                             ) : (
                                 <button
-                                    onMouseDown={(e) => {
+                                    onClick={(e) => {
                                         e.stopPropagation();
                                         handleWriteReview(booking);
                                     }}
-                                    className="h-8 px-2 text-yellow-600 border border-yellow-200 hover:bg-yellow-50 rounded text-sm flex items-center justify-center"
+                                    className="size-8 text-yellow-600 border border-yellow-200 hover:bg-yellow-50 rounded text-sm flex items-center justify-center"
                                     title="Escribir reseña"
                                 >
                                     <Star className="h-3 w-3" />

@@ -1,11 +1,19 @@
 import { formatDate } from '@/lib/utils'
 import { Booking, BookingStatus, Review, Technician } from '@/types'
 import { Button } from '../ui/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Calendar, MapPin, Phone, Star } from 'lucide-react'
 import WhatsAppButton from '../ui/WhatsAppButton'
 
 interface Props {
-    selectedBooking: Booking
+    selectedBooking: Booking | null
     isOpen: boolean
     closeModal: () => void
     handleWriteReview: (booking: Booking) => void
@@ -14,30 +22,31 @@ interface Props {
     isTechnician: Technician | undefined
 }
 const BookingSelected = ({ selectedBooking, closeModal, handleWriteReview, getStatusBadge, alreadyReviewed, isTechnician }: Props) => {
+    if (!selectedBooking) return null;
+
     // Buscar la reseña existente del usuario para este técnico
     const existingReview = alreadyReviewed.find(review =>
         review.technician.id === selectedBooking.technician.id && review.user.id === selectedBooking.user.id
     );
-    
+
     const technicianIsReviewed = !!existingReview;
     return (
-        <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-            onClick={closeModal}
-        >
-            <div
-                className="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl font-bold">Detalles de la Reserva #{selectedBooking.id}</h2>
-                    <button
-                        onClick={closeModal}
-                        className="text-gray-500 hover:text-gray-700 text-2xl"
-                    >
-                        x
-                    </button>
-                </div>
+        <Dialog open={!!selectedBooking} onOpenChange={closeModal}>
+            <DialogContent className="bg-white max-w-2xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                    <DialogTitle>Detalles de la Reserva #{selectedBooking.id}</DialogTitle>
+                    <DialogDescription>
+                        {isTechnician ? "Cliente" : "Técnico"}:{' '}
+                        {isTechnician
+                            ? (selectedBooking.user?.firstName && selectedBooking.user?.lastName
+                                ? `${selectedBooking.user.firstName} ${selectedBooking.user.lastName}`
+                                : selectedBooking.user?.username || 'Cliente sin nombre')
+                            : (selectedBooking.technician?.user?.firstName && selectedBooking.technician?.user?.lastName
+                                ? `${selectedBooking.technician.user.firstName} ${selectedBooking.technician.user.lastName}`
+                                : selectedBooking.technician?.user?.username || 'Técnico sin nombre')
+                        }
+                    </DialogDescription>
+                </DialogHeader>
 
                 <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -48,7 +57,7 @@ const BookingSelected = ({ selectedBooking, closeModal, handleWriteReview, getSt
                             <div className="bg-gray-50 p-3 rounded">
                                 <p className="font-medium">
                                     {isTechnician
-                                        ? (selectedBooking.user?.firstName && selectedBooking.user?.lastName 
+                                        ? (selectedBooking.user?.firstName && selectedBooking.user?.lastName
                                             ? `${selectedBooking.user.firstName} ${selectedBooking.user.lastName}`
                                             : selectedBooking.user?.username || 'Cliente sin nombre')
                                         : (selectedBooking.technician?.user?.firstName && selectedBooking.technician?.user?.lastName
@@ -84,8 +93,8 @@ const BookingSelected = ({ selectedBooking, closeModal, handleWriteReview, getSt
                         <div className="bg-gray-50 p-3 rounded">
                             <p className="flex items-center gap-1">
                                 <MapPin className="h-4 w-4 text-gray-500" />
-                                {isTechnician 
-                                    ? selectedBooking.user?.address || 'Sin dirección' 
+                                {isTechnician
+                                    ? selectedBooking.user?.address || 'Sin dirección'
                                     : selectedBooking.technician?.user?.address || 'Sin dirección'}
                             </p>
                         </div>
@@ -110,7 +119,7 @@ const BookingSelected = ({ selectedBooking, closeModal, handleWriteReview, getSt
                                             Tu reseña para este técnico
                                         </h3>
                                     </div>
-                                    
+
                                     <div className="bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-yellow-200 p-4 rounded-lg">
                                         {/* Calificación con estrellas */}
                                         <div className="flex items-center gap-2 mb-3">
@@ -175,12 +184,12 @@ const BookingSelected = ({ selectedBooking, closeModal, handleWriteReview, getSt
                     {/* Botón de WhatsApp prominente para reservas Aceptadas o Completadas */}
                     {(selectedBooking.status === "Aceptado" || selectedBooking.status === "Completado") && (
                         <WhatsAppButton
-                            phoneNumber={isTechnician 
+                            phoneNumber={isTechnician
                                 ? selectedBooking.user?.phone || ''
                                 : selectedBooking.technician?.user?.phone || ''
                             }
                             userName={isTechnician
-                                ? (selectedBooking.user?.firstName && selectedBooking.user?.lastName 
+                                ? (selectedBooking.user?.firstName && selectedBooking.user?.lastName
                                     ? `${selectedBooking.user.firstName} ${selectedBooking.user.lastName}`
                                     : selectedBooking.user?.username || 'Cliente')
                                 : (selectedBooking.technician?.user?.firstName && selectedBooking.technician?.user?.lastName
@@ -195,12 +204,14 @@ const BookingSelected = ({ selectedBooking, closeModal, handleWriteReview, getSt
                             showText={true}
                         />
                     )}
-                    <Button onClick={closeModal} variant="outline">
-                        Cerrar
-                    </Button>
+                    <DialogClose asChild>
+                        <Button variant="outline">
+                            Cerrar
+                        </Button>
+                    </DialogClose>
                 </div>
-            </div>
-        </div>
+            </DialogContent>
+        </Dialog>
     )
 }
 

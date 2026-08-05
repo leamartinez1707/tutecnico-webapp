@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { MessageCircle, ExternalLink, LucideIcon } from 'lucide-react';
+import { openWhatsApp, CONTACT_CONFIG } from '@/config/contact';
 
 interface DevelopmentModalProps {
     isOpen: boolean;
@@ -28,7 +29,7 @@ const DevelopmentModal = ({
     textColor
 }: DevelopmentModalProps) => {
     const handleWhatsAppContact = () => {
-        window.open('https://wa.me/59895220063', '_blank');
+        openWhatsApp('Hola, me gustaría obtener más información sobre ServyFix.');
     };
 
     return (

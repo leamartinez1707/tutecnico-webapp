@@ -1,6 +1,5 @@
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '../ui/dialog'
 
-
 interface ModalUiProps {
     open: boolean;
     setOpen: (open: boolean) => void;
@@ -13,7 +12,7 @@ import { CalendarCheck2, XIcon } from "lucide-react";
 const ModalUi = ({ open, setOpen, children, firstName, lastName }: ModalUiProps) => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="w-full mx-auto mt-8 p-0 max-w-lg sm:max-w-xl [&>button]:hidden h-[100dvh] sm:h-auto flex items-center justify-center">
+            <DialogContent className="w-full mx-auto mt-8 p-0 max-w-lg sm:max-w-xl h-[100dvh] sm:h-auto flex items-center justify-center">
                 <div className="flex flex-col gap-0 w-full bg-gradient-to-br from-zinc-900 via-black to-zinc-800/90 backdrop-blur border border-zinc-700/60 shadow-2xl shadow-blue-900/20 overflow-hidden text-white rounded-2xl p-0 sm:p-2 max-h-[95dvh] sm:max-h-[90vh] overflow-y-auto pb-6 sm:pb-4">
                     {/* Header */}
                     <div className="flex items-center justify-between border-b border-zinc-700/60 px-4 py-3 bg-zinc-950/80">

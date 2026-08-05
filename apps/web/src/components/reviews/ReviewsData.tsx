@@ -164,7 +164,7 @@ const ReviewsData = ({ reviews: reviewsFiltered }: ReviewsDataProps) => {
                                 </div>
                                 <div className="flex items-center gap-3 text-sm">
                                     <span className="text-gray-600 font-medium">Filtros:</span>
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-2 flex-wrap">
                                         <Badge
                                             variant="outline"
                                             className={`cursor-pointer transition-colors ${selectedRating === null
@@ -252,7 +252,7 @@ const ReviewsData = ({ reviews: reviewsFiltered }: ReviewsDataProps) => {
                                                             variant="outline"
                                                             className={`font-semibold ${getRatingColor(review.rating)}`}
                                                         >
-                                                            {review.rating.toFixed(1)}
+                                                            {review.rating}
                                                         </Badge>
                                                     </div>
                                                     <p className="text-gray-700 leading-relaxed">{review.comment}</p>

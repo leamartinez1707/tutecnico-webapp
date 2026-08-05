@@ -82,15 +82,15 @@ const BookingsTable = ({ bookings }: BookingsTableProps) => {
                 <Table>
                     <TableHeader>
                         <TableRow className="bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
-                            <TableHead className="font-semibold text-gray-700 py-4">ID</TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4">
+                            <TableHead className="font-semibold text-gray-700 py-4 w-[5%]">ID</TableHead>
+                            <TableHead className="font-semibold text-gray-700 py-4 w-[18%]">
                                 {isTechnician ? "Cliente" : "Técnico"}
                             </TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4">Fecha</TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4">Comentario</TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4">Dirección</TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4">Estado</TableHead>
-                            <TableHead className="font-semibold text-gray-700 py-4 text-center">Acciones</TableHead>
+                            <TableHead className="font-semibold text-gray-700 py-4 w-[14%]">Fecha</TableHead>
+                            <TableHead className="font-semibold text-gray-700 py-4 w-[22%]">Comentario</TableHead>
+                            <TableHead className="font-semibold text-gray-700 py-4 w-[16%]">Dirección</TableHead>
+                            <TableHead className="font-semibold text-gray-700 py-4 w-[10%]">Estado</TableHead>
+                            <TableHead className="font-semibold text-gray-700 py-4 text-center w-[15%]">Acciones</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -108,20 +108,18 @@ const BookingsTable = ({ bookings }: BookingsTableProps) => {
                 </Table>
             </div>
 
-            {/* Modal simple - sin dependencias externas */}
-            {selectedBooking && (
-                <BookingSelected
-                    selectedBooking={selectedBooking}
-                    isOpen={!!selectedBooking}
-                    closeModal={closeModal}
-                    handleWriteReview={handleWriteReview}
-                    getStatusBadge={getStatusBadge}
-                    alreadyReviewed={alreadyReviewed}
-                    isTechnician={isTechnician}
-                />
-            )}
+            {/* Modal de detalle — Radix Dialog, always rendered */}
+            <BookingSelected
+                selectedBooking={selectedBooking}
+                isOpen={!!selectedBooking}
+                closeModal={closeModal}
+                handleWriteReview={handleWriteReview}
+                getStatusBadge={getStatusBadge}
+                alreadyReviewed={alreadyReviewed}
+                isTechnician={isTechnician}
+            />
 
-            {/* Modal de reseña */}
+            {/* Modal de reseña — Radix Dialog, always rendered */}
             <ReviewModal
                 booking={reviewBooking}
                 isOpen={isReviewModalOpen}

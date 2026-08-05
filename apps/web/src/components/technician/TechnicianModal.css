@@ -30,9 +30,9 @@
   }
 }
 
-/* Responsive improvements for modal */
+/* Responsive improvements for modal — scoped to TechnicianModal only */
 @media (max-width: 640px) {
-  [data-radix-dialog-content] {
+  .tech-modal-content[data-radix-dialog-content] {
     margin: 0;
     width: 100%;
     max-width: 100%;

@@ -52,7 +52,7 @@ const DashboardCard = ({ tech, setAddBookingModal }: DashboardCardProps) => {
             <div className="flex flex-col lg:flex-row gap-4 mb-4 text-sm">
                 <div className="flex items-center gap-1">
                     <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                    <span className="font-medium">{Number(tech.averageRating) || '0 calificaciones'}</span>
+                    <span className="font-medium">{tech.averageRating != null ? `${Number(tech.averageRating).toFixed(1)} calificaciones` : 'Sin calificaciones'}</span>
                     <span className="text-gray-500">{'('}{reviews?.length ? reviews.length : 'Sin datos'}{')'}</span>
                 </div>
             </div>

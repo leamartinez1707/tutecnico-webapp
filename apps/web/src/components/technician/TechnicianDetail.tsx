@@ -17,6 +17,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { enqueueSnackbar } from "notistack";
 import { capitalizeFirstLetter, cutAddress, logger } from "@/utils";
+import { averageRating } from "@/lib/utils";
 import { useSpecializations } from "@/hooks/queries/useSpecializations";
 import { useReviewsByTechnician } from "@/hooks/queries/useReviews";
 import { useTechnicianByUsername } from "@/hooks";
@@ -56,7 +57,7 @@ export function TechnicianDetail() {
     const { setSelectedTechnician, setAddBookingModal, addBookingModal, selectedTechnician, setBookingData, handleAddBooking } = useBookingHandler();
 
     const reviewCount = reviews.length;
-    const rating = technician?.averageRating
+    const rating = averageRating(reviews);
 
     const handleBooking = () => {
         // Prevenir que un técnico pueda reservar
@@ -181,7 +182,7 @@ export function TechnicianDetail() {
                                                 </div>
                                                 <div className="flex items-center gap-1">
                                                     <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                                                    <span className="text-white">{rating}</span>
+                                                    <span className="text-white">{rating > 0 ? rating.toFixed(1) : '—'}</span>
                                                     {reviews.length > 0 && <span>({reviews.length} {reviews.length === 1 ? 'reseña' : 'reseñas'})</span>}
                                                 </div>
                                             </div>
@@ -271,7 +272,7 @@ export function TechnicianDetail() {
                                 {reviewCount > 0 && (
                                     <div className="flex items-center gap-2">
                                         <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                                        <span className="text-xl text-white">{rating}</span>
+                                        <span className="text-xl text-white">{rating > 0 ? rating.toFixed(1) : '—'}</span>
                                         <span className="text-zinc-400">({reviewCount})</span>
                                     </div>
                                 )}
