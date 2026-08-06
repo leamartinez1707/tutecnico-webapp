@@ -20,13 +20,13 @@ export async function validateUniqueUserFields(
 
   if (existingUser && existingUser.id !== userId) {
     if (username && existingUser.username === username) {
-      throw new HttpException('Username already exists', HttpStatus.CONFLICT);
+      throw new HttpException('El nombre de usuario ya está en uso', HttpStatus.CONFLICT);
     }
     if (email && existingUser.email === email) {
-      throw new HttpException('Email already exists', HttpStatus.CONFLICT);
+      throw new HttpException('El email ya está en uso', HttpStatus.CONFLICT);
     }
     if (phone && existingUser.phone === phone) {
-      throw new HttpException('Phone already exists', HttpStatus.CONFLICT);
+      throw new HttpException('El teléfono ya está en uso', HttpStatus.CONFLICT);
     }
   }
 }

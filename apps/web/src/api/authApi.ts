@@ -13,15 +13,10 @@ export const signUpRequest = async (formData: SignUp) => {
     } catch (error) {
         logger.apiError('/technicians', error);
         if (isAxiosError(error)) {
-            return error.response?.data.message ?? 'Error al registrar el usuario'
+            throw new Error(error.response?.data.message ?? 'Error al registrar el usuario')
         }
-        if (error instanceof Error) {
-            throw new Error(error.message[0] || 'Error al registrar el técnico')
-        } else {
-            throw new Error('Error desconocido al registrar el técnico')
-        }
+        throw error;
     }
-
 }
 
 export const signUpUserRequest = async (formData: SignUpUser) => {
