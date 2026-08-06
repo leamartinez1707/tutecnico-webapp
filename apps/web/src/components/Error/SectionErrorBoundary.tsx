@@ -37,13 +37,13 @@ class SectionErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex items-center justify-center p-8 bg-red-50 rounded-lg border border-red-200">
+        <div className="flex items-center justify-center p-8 bg-red-950/30 rounded-lg border border-red-900/50 min-h-[200px]">
           <div className="text-center space-y-2">
-            <AlertCircle className="w-8 h-8 text-red-600 mx-auto" />
-            <h3 className="font-semibold text-gray-900">
-              Error en {this.props.sectionName}
+            <AlertCircle className="w-8 h-8 text-red-400 mx-auto" />
+            <h3 className="font-semibold text-zinc-300">
+              Error al cargar esta sección
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-zinc-500">
               {this.props.fallbackMessage || 
                 'No pudimos cargar esta sección. Por favor, recarga la página.'}
             </p>

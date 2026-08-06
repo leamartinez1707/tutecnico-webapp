@@ -75,36 +75,36 @@ class ErrorBoundary extends Component<Props, State> {
 
       // UI de error por defecto
       return (
-        <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center p-4">
-          <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8">
+        <div className="min-h-screen bg-black flex items-center justify-center p-4">
+          <div className="max-w-md w-full bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-800 p-8">
             <div className="flex flex-col items-center text-center space-y-6">
               {/* Icono de error */}
-              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center">
-                <AlertTriangle className="w-10 h-10 text-red-600" />
+              <div className="w-20 h-20 bg-red-900/30 rounded-full flex items-center justify-center">
+                <AlertTriangle className="w-10 h-10 text-red-400" />
               </div>
 
               {/* Título y mensaje */}
               <div className="space-y-2">
-                <h1 className="text-2xl font-bold text-gray-900">
-                  ¡Ups! Algo salió mal
+                <h1 className="text-2xl font-bold text-white">
+                  Algo salió mal
                 </h1>
-                <p className="text-gray-600">
-                  Ocurrió un error inesperado. No te preocupes, estamos trabajando para solucionarlo.
+                <p className="text-zinc-400">
+                  Ocurrió un error inesperado al cargar esta página.
                 </p>
               </div>
 
               {/* Detalles del error (solo en desarrollo) */}
               {import.meta.env.DEV && this.state.error && (
                 <details className="w-full">
-                  <summary className="cursor-pointer text-sm text-gray-500 hover:text-gray-700 mb-2">
-                    Ver detalles técnicos
-                  </summary>
-                  <div className="bg-gray-50 rounded-lg p-4 text-left">
-                    <p className="text-xs text-red-600 font-mono break-all">
+                    <summary className="cursor-pointer text-sm text-zinc-500 hover:text-zinc-300 mb-2">
+                      Ver detalles técnicos
+                    </summary>
+                    <div className="bg-zinc-800 rounded-lg p-4 text-left">
+                      <p className="text-xs text-red-400 font-mono break-all">
                       {this.state.error.message}
                     </p>
                     {this.state.errorInfo && (
-                      <pre className="text-xs text-gray-600 mt-2 overflow-auto max-h-40">
+                        <pre className="text-xs text-zinc-400 mt-2 overflow-auto max-h-40">
                         {this.state.errorInfo.componentStack}
                       </pre>
                     )}
@@ -117,7 +117,7 @@ class ErrorBoundary extends Component<Props, State> {
                 <Button
                   onClick={this.handleReset}
                   variant="outline"
-                  className="flex-1"
+                  className="flex-1 border-zinc-600 text-zinc-300 hover:bg-zinc-700 hover:text-white"
                 >
                   <RefreshCw className="w-4 h-4 mr-2" />
                   Intentar de nuevo
@@ -132,15 +132,15 @@ class ErrorBoundary extends Component<Props, State> {
 
               <Button
                 onClick={this.handleGoHome}
-                variant="ghost"
-                className="w-full"
+                  variant="ghost"
+                  className="w-full text-zinc-400 hover:text-white hover:bg-zinc-800"
               >
                 <Home className="w-4 h-4 mr-2" />
                 Volver al inicio
               </Button>
 
               {/* Información adicional */}
-              <p className="text-xs text-gray-400 mt-4">
+              <p className="text-xs text-zinc-500 mt-4">
                 Si el problema persiste, por favor contacta a soporte.
               </p>
             </div>

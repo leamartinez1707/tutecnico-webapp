@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import SectionErrorBoundary from "@/components/Error/SectionErrorBoundary";
 
 export default function PageWrapper({ children }: { children: React.ReactNode }) {
     return (
@@ -9,7 +10,9 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
             transition={{ duration: 0.2 }}
             className="w-full h-full"
         >
-            {children}
+            <SectionErrorBoundary sectionName="página">
+                {children}
+            </SectionErrorBoundary>
         </motion.div>
     );
 }
