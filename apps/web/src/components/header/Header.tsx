@@ -116,8 +116,8 @@ export function Header() {
                         className="flex items-center gap-3 cursor-pointer"
                     >
                         <img
-                            className="w-40"
-                            src="/logo_servyfix.svg"
+                            className="w-40 text-white"
+                            src="/logo_tutecnico.svg"
                             alt="Logo ServyFix"
                             style={{ filter: "invert(1) brightness(2)" }}
                         />
