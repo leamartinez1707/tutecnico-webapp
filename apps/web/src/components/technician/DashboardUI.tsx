@@ -28,14 +28,18 @@ const DashboardUi = memo(() => {
     // Si no hay datos de técnico, mostrar un mensaje
     if (!technician) {
         return (
-            <div className="container mx-auto py-8 px-4 text-center">
-                <h1 className="text-3xl font-semibold mb-4">Panel de Técnico</h1>
-                <p className="text-xl text-black">Gestiona tu información personal y servicios.</p>
-                <Card>
-                    <CardContent className="py-10">
-                        <p>No se encontraron datos de técnico. Por favor, contacta al administrador.</p>
-                    </CardContent>
-                </Card>
+            <div className="min-h-screen bg-black pt-24">
+                <div className="container mx-auto py-8 px-4">
+                    <div className="mb-8">
+                        <div className="h-8 w-48 bg-zinc-800 rounded animate-pulse mb-2" />
+                        <div className="h-5 w-72 bg-zinc-800 rounded animate-pulse" />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {[1, 2, 3, 4].map(i => (
+                            <div key={i} className="h-48 bg-zinc-900/80 rounded-xl border border-zinc-800 animate-pulse" />
+                        ))}
+                    </div>
+                </div>
             </div>
         )
     }
@@ -43,11 +47,11 @@ const DashboardUi = memo(() => {
     // Debug logs removed to avoid noisy repeated console output
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-black pt-24">
             <div className="container mx-auto py-8 px-4">
                 <div className="mb-8">
-                    <h1 className="text-2xl font-semibold text-gray-900 mb-2">Panel de Técnico</h1>
-                    <p className="text-gray-600 text-base">Gestiona tu información profesional y servicios</p>
+                    <h1 className="text-2xl font-semibold text-white mb-2">Panel de Técnico</h1>
+                    <p className="text-zinc-400 text-base">Gestiona tu información profesional y servicios</p>
                 </div>
 
                 {/* Cartel de Membresía */}
@@ -60,10 +64,10 @@ const DashboardUi = memo(() => {
                 </div>
 
                 {/* Foto de Perfil */}
-                <Card className="mb-6">
+                <Card className="mb-6 bg-zinc-900/80 border-zinc-700/60">
                     <CardHeader>
-                        <CardTitle className="text-lg font-semibold text-gray-900">Foto de Perfil</CardTitle>
-                        <CardDescription className="text-sm text-gray-500">
+                        <CardTitle className="text-lg font-semibold text-white">Foto de Perfil</CardTitle>
+                        <CardDescription className="text-sm text-zinc-400">
                             Sube una foto para que los clientes puedan identificarte
                         </CardDescription>
                     </CardHeader>
@@ -80,7 +84,7 @@ const DashboardUi = memo(() => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Información Personal */}
-                    <Card className={`hover:shadow-lg transition-all duration-200 ${editingPersonal ? 'bg-blue-50 border-2 border-blue-200 shadow-lg' : 'bg-white border-0 shadow-sm'}`}>
+                    <Card className={`hover:shadow-lg transition-all duration-200 ${editingPersonal ? 'bg-blue-900/30 border-2 border-blue-800/50 shadow-lg' : 'bg-zinc-900/80 border-zinc-700/60 shadow-xl'}`}>
                         <CardHeader className="flex flex-row items-center justify-between pb-4">
                             <div className="flex items-center gap-3">
                                 <UserAvatar
@@ -88,10 +92,10 @@ const DashboardUi = memo(() => {
                                     fallbackBgColor={editingPersonal ? 'bg-blue-600 animate-pulse' : 'bg-gray-800'}
                                 />
                                 <div>
-                                    <CardTitle className={`text-lg font-semibold ${editingPersonal ? 'text-blue-900' : 'text-gray-900'}`}>
+                                    <CardTitle className={`text-lg font-semibold ${editingPersonal ? 'text-blue-300' : 'text-white'}`}>
                                         Información Personal {editingPersonal && <span className="text-sm font-normal">(Editando)</span>}
                                     </CardTitle>
-                                    <CardDescription className={`text-sm ${editingPersonal ? 'text-blue-600' : 'text-gray-500'}`}>
+                                    <CardDescription className={`text-sm ${editingPersonal ? 'text-blue-400' : 'text-zinc-400'}`}>
                                         {editingPersonal ? 'Modifica tus datos personales' : 'Tus datos personales'}
                                     </CardDescription>
                                 </div>
@@ -102,9 +106,9 @@ const DashboardUi = memo(() => {
                                 </Button>
                             ) : (
                                 <div className="flex items-center gap-1">
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse delay-75"></div>
-                                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse delay-150"></div>
+                                    <div className="w-2 h-2 bg-blue-900/300 rounded-full animate-pulse"></div>
+                                    <div className="w-2 h-2 bg-blue-900/300 rounded-full animate-pulse delay-75"></div>
+                                    <div className="w-2 h-2 bg-blue-900/300 rounded-full animate-pulse delay-150"></div>
                                 </div>
                             )}
                         </CardHeader>
@@ -113,11 +117,11 @@ const DashboardUi = memo(() => {
                                 <div className="space-y-5">
                                     <div className="flex items-center gap-3">
                                         <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                                            <ClipboardCheckIcon className="w-4 h-4 text-blue-600" />
+                                            <ClipboardCheckIcon className="w-4 h-4 text-blue-400" />
                                         </div>
                                         <div className="flex-1">
-                                            <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">Nombre</div>
-                                            <div className="text-sm font-medium text-gray-900 capitalize">
+                                            <div className="text-xs text-zinc-400 uppercase tracking-wide font-medium mb-1">Nombre</div>
+                                            <div className="text-sm font-medium text-white capitalize">
                                                 {technician.firstName} {technician.lastName}
                                             </div>
                                         </div>
@@ -127,17 +131,17 @@ const DashboardUi = memo(() => {
                                             <Mail className="w-4 h-4 text-purple-600" />
                                         </div>
                                         <div className="flex-1">
-                                            <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">Email</div>
-                                            <div className="text-sm font-medium text-gray-900">{technician.email}</div>
+                                            <div className="text-xs text-zinc-400 uppercase tracking-wide font-medium mb-1">Email</div>
+                                            <div className="text-sm font-medium text-white">{technician.email}</div>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                                            <Phone className="w-4 h-4 text-green-600" />
+                                            <Phone className="w-4 h-4 text-green-400" />
                                         </div>
                                         <div className="flex-1">
-                                            <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">Teléfono</div>
-                                            <div className="text-sm font-medium text-gray-900">{technician.phone}</div>
+                                            <div className="text-xs text-zinc-400 uppercase tracking-wide font-medium mb-1">Teléfono</div>
+                                            <div className="text-sm font-medium text-white">{technician.phone}</div>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
@@ -145,16 +149,16 @@ const DashboardUi = memo(() => {
                                             <Home className="w-4 h-4 text-orange-600" />
                                         </div>
                                         <div className="flex-1">
-                                            <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">Dirección</div>
-                                            <div className="text-sm font-medium text-gray-900 capitalize">{technician.address}</div>
+                                            <div className="text-xs text-zinc-400 uppercase tracking-wide font-medium mb-1">Dirección</div>
+                                            <div className="text-sm font-medium text-white capitalize">{technician.address}</div>
                                         </div>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="space-y-5 bg-white rounded-lg p-4 border border-blue-200">
-                                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                                <div className="space-y-5 bg-zinc-900/80 rounded-lg p-4 border border-blue-800/50">
+                                    <div className="bg-blue-900/30 border border-blue-800/50 rounded-lg p-3 mb-4">
                                         <p className="text-sm text-blue-700 font-medium">✏️ Modo de edición activo</p>
-                                        <p className="text-xs text-blue-600 mt-1">Modifica los campos que necesites y guarda los cambios</p>
+                                        <p className="text-xs text-blue-400 mt-1">Modifica los campos que necesites y guarda los cambios</p>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
@@ -164,7 +168,7 @@ const DashboardUi = memo(() => {
                                             </label>
                                             <Input
                                                 id="firstName"
-                                                className="capitalize border-blue-300 focus:border-blue-500 focus:ring-blue-500 bg-blue-50"
+                                                className="capitalize border-blue-300 focus:border-blue-500 focus:ring-blue-500 bg-blue-900/30"
                                                 value={editedUser.firstName}
                                                 onChange={(e: { target: { value: string } }) => setEditedUser({ ...editedUser, firstName: e.target.value })}
                                             />
@@ -176,7 +180,7 @@ const DashboardUi = memo(() => {
                                             </label>
                                             <Input
                                                 id="lastName"
-                                                className="capitalize border-blue-300 focus:border-blue-500 focus:ring-blue-500 bg-blue-50"
+                                                className="capitalize border-blue-300 focus:border-blue-500 focus:ring-blue-500 bg-blue-900/30"
                                                 value={editedUser.lastName}
                                                 onChange={(e: { target: { value: string } }) => setEditedUser({ ...editedUser, lastName: e.target.value })}
                                             />
@@ -190,7 +194,7 @@ const DashboardUi = memo(() => {
                                         <Input
                                             id="email"
                                             type="email"
-                                            className="border-blue-300 focus:border-blue-500 focus:ring-blue-500 bg-blue-50"
+                                            className="border-blue-300 focus:border-blue-500 focus:ring-blue-500 bg-blue-900/30"
                                             value={editedUser.email}
                                             onChange={(e: { target: { value: string } }) => setEditedUser({ ...editedUser, email: e.target.value })}
                                         />
@@ -202,7 +206,7 @@ const DashboardUi = memo(() => {
                                         </label>
                                         <Input
                                             id="phone"
-                                            className="border-blue-300 focus:border-blue-500 focus:ring-blue-500 bg-blue-50"
+                                            className="border-blue-300 focus:border-blue-500 focus:ring-blue-500 bg-blue-900/30"
                                             value={editedUser.phone}
                                             onChange={(e: { target: { value: string } }) => setEditedUser({ ...editedUser, phone: e.target.value })}
                                         />
@@ -214,7 +218,7 @@ const DashboardUi = memo(() => {
                                         </label>
                                         <Input
                                             id="address"
-                                            className="capitalize border-blue-300 focus:border-blue-500 focus:ring-blue-500 bg-blue-50"
+                                            className="capitalize border-blue-300 focus:border-blue-500 focus:ring-blue-500 bg-blue-900/30"
                                             value={editedUser.address}
                                             onChange={(e: { target: { value: string } }) => setEditedUser({ ...editedUser, address: e.target.value })}
                                         />
@@ -223,7 +227,7 @@ const DashboardUi = memo(() => {
                             )}
                         </CardContent>
                         {editingPersonal && (
-                            <CardFooter className="flex justify-between gap-3 bg-blue-50 rounded-b-lg border-t border-blue-200 p-4">
+                            <CardFooter className="flex justify-between gap-3 bg-blue-900/30 rounded-b-lg border-t border-blue-800/50 p-4">
                                 <Button
                                     className="hover:cursor-pointer flex-1 border-red-300 text-red-700 hover:bg-red-50 hover:border-red-400"
                                     variant="outline"
@@ -246,17 +250,17 @@ const DashboardUi = memo(() => {
                     </Card>
 
                     {/* Información Técnica */}
-                    <Card className={`hover:shadow-lg transition-all duration-200 ${editingTechnical ? 'bg-green-50 border-2 border-green-200 shadow-lg' : 'bg-white border-0 shadow-sm'}`}>
+                    <Card className={`hover:shadow-lg transition-all duration-200 ${editingTechnical ? 'bg-green-900/30 border-2 border-green-800/50 shadow-lg' : 'bg-zinc-900/80 border-zinc-700/60 shadow-xl'}`}>
                         <CardHeader className="flex flex-row items-center justify-between pb-4">
                             <div className="flex items-center gap-3">
                                 <div className={`w-12 h-12 rounded-full flex items-center justify-center ${editingTechnical ? 'bg-green-600 animate-pulse' : 'bg-blue-600'}`}>
                                     <Briefcase className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <CardTitle className={`text-lg font-semibold ${editingTechnical ? 'text-green-900' : 'text-gray-900'}`}>
+                                    <CardTitle className={`text-lg font-semibold ${editingTechnical ? 'text-green-300' : 'text-white'}`}>
                                         Información Técnica {editingTechnical && <span className="text-sm font-normal">(Editando)</span>}
                                     </CardTitle>
-                                    <CardDescription className={`text-sm ${editingTechnical ? 'text-green-600' : 'text-gray-500'}`}>
+                                    <CardDescription className={`text-sm ${editingTechnical ? 'text-green-400' : 'text-zinc-400'}`}>
                                         {editingTechnical ? 'Modifica tu especialización y servicios' : 'Tu especialización y servicios'}
                                     </CardDescription>
                                 </div>
@@ -269,9 +273,9 @@ const DashboardUi = memo(() => {
                                 </Button>
                             ) : (
                                 <div className="flex items-center gap-1">
-                                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse delay-75"></div>
-                                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse delay-150"></div>
+                                    <div className="w-2 h-2 bg-green-900/300 rounded-full animate-pulse"></div>
+                                    <div className="w-2 h-2 bg-green-900/300 rounded-full animate-pulse delay-75"></div>
+                                    <div className="w-2 h-2 bg-green-900/300 rounded-full animate-pulse delay-150"></div>
                                 </div>
                             )}
                         </CardHeader>
@@ -281,9 +285,9 @@ const DashboardUi = memo(() => {
                                     <div className="bg-gray-50 rounded-lg p-4">
                                         <div className="flex items-center gap-2 mb-2">
                                             <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
-                                                <Briefcase className="w-3 h-3 text-blue-600" />
+                                                <Briefcase className="w-3 h-3 text-blue-400" />
                                             </div>
-                                            <span className="text-xs text-gray-500 uppercase tracking-wide font-medium">Especialización</span>
+                                            <span className="text-xs text-zinc-400 uppercase tracking-wide font-medium">Especialización</span>
                                         </div>
                                         <div className="ml-8">
                                             <Badge className="bg-blue-600 text-white px-3 py-1 text-sm font-medium capitalize">
@@ -294,11 +298,11 @@ const DashboardUi = memo(() => {
 
                                     <div>
                                         <div className="flex items-center gap-2 mb-3">
-                                            <div className="text-sm font-medium text-gray-700">Servicios</div>
+                                            <div className="text-sm font-medium text-zinc-300">Servicios</div>
                                         </div>
                                         <div className="flex flex-wrap gap-2">
                                             {editedTechnical.services.map(service => (
-                                                <Badge key={service} className="bg-gray-100 text-gray-700 hover:bg-gray-200 px-3 py-1 text-sm border-0">
+                                                <Badge key={service} className="bg-zinc-800 text-zinc-300 hover:bg-gray-200 px-3 py-1 text-sm border-0">
                                                     {capitalizeFirstLetter(service)}
                                                 </Badge>
                                             ))}
@@ -306,7 +310,7 @@ const DashboardUi = memo(() => {
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            className="mt-3 text-blue-600 border-blue-200 hover:bg-blue-50"
+                                            className="mt-3 text-blue-400 border-blue-800/50 hover:bg-blue-900/30"
                                             onClick={() => setEditingTechnical(true)}
                                         >
                                             Agregar nuevo servicio
@@ -314,10 +318,10 @@ const DashboardUi = memo(() => {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="space-y-5 bg-white rounded-lg p-4 border border-green-200">
-                                    <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
+                                <div className="space-y-5 bg-zinc-900/80 rounded-lg p-4 border border-green-800/50">
+                                    <div className="bg-green-900/30 border border-green-800/50 rounded-lg p-3 mb-4">
                                         <p className="text-sm text-green-700 font-medium">🛠️ Editando información técnica</p>
-                                        <p className="text-xs text-green-600 mt-1">Actualiza tu especialización y servicios disponibles</p>
+                                        <p className="text-xs text-green-400 mt-1">Actualiza tu especialización y servicios disponibles</p>
                                     </div>
                                     <div className="space-y-4">
                                         <Label htmlFor="specialization" className="text-sm font-semibold text-green-800 flex items-center gap-2">
@@ -327,14 +331,14 @@ const DashboardUi = memo(() => {
                                         <Input
                                             disabled
                                             id="specialization"
-                                            className="capitalize bg-green-50 border-green-300 text-green-800"
+                                            className="capitalize bg-green-900/30 border-green-700 text-green-800"
                                             value={editedTechnical.specialization}
                                         />
-                                        <div className="bg-green-50 rounded-lg p-3 border border-green-200">
+                                        <div className="bg-green-900/30 rounded-lg p-3 border border-green-800/50">
                                             <label className="text-sm font-semibold text-green-800 mb-2 block">Cambiar especialización</label>
                                             <div className="flex gap-2">
                                                 <select
-                                                    className="flex h-10 w-full rounded-md border border-green-300 bg-white px-3 py-2 text-sm focus:border-green-500 focus:ring-green-500 capitalize"
+                                                    className="flex h-10 w-full rounded-md border border-green-700 bg-zinc-900/80 px-3 py-2 text-sm focus:border-green-500 focus:ring-green-500 capitalize"
                                                     value={newSpecialization}
                                                     onChange={(e) => setNewSpecialization(e.target.value)}
                                                 >
@@ -363,14 +367,14 @@ const DashboardUi = memo(() => {
                                             <Briefcase className="w-4 h-4" />
                                             Servicios disponibles
                                         </label>
-                                        <div className="bg-green-50 rounded-lg p-3 border border-green-200">
+                                        <div className="bg-green-900/30 rounded-lg p-3 border border-green-800/50">
                                             <div className="flex flex-wrap gap-2 mb-3">
                                                 {editedTechnical.services.map((service: string, index: number) => (
                                                     <Badge key={index} className="bg-green-600 text-white flex items-center gap-1 px-3 py-1">
                                                         {capitalizeFirstLetter(service)}
                                                         <button
                                                             onClick={() => handleRemoveService(index)}
-                                                            className="ml-1 rounded-full hover:bg-green-500 p-0.5 hover:cursor-pointer"
+                                                            className="ml-1 rounded-full hover:bg-green-900/300 p-0.5 hover:cursor-pointer"
                                                         >
                                                             <X className="h-3 w-3" />
                                                         </button>
@@ -379,7 +383,7 @@ const DashboardUi = memo(() => {
                                             </div>
                                             <div className="flex gap-2">
                                                 <select
-                                                    className="flex h-10 w-full rounded-md border border-green-300 bg-white px-3 py-2 text-sm focus:border-green-500 focus:ring-green-500"
+                                                    className="flex h-10 w-full rounded-md border border-green-700 bg-zinc-900/80 px-3 py-2 text-sm focus:border-green-500 focus:ring-green-500"
                                                     value={newService}
                                                     onChange={(e) => setNewService(e.target.value)}
                                                 >
@@ -407,7 +411,7 @@ const DashboardUi = memo(() => {
                             )}
                         </CardContent>
                         {editingTechnical && (
-                            <CardFooter className="flex justify-between gap-3 bg-green-50 rounded-b-lg border-t border-green-200 p-4">
+                            <CardFooter className="flex justify-between gap-3 bg-green-900/30 rounded-b-lg border-t border-green-800/50 p-4">
                                 <Button
                                     className="hover:cursor-pointer flex-1 border-red-300 text-red-700 hover:bg-red-50 hover:border-red-400"
                                     variant="outline"
@@ -433,18 +437,18 @@ const DashboardUi = memo(() => {
                     </Card>
 
                     {/* Ubicación */}
-                    <Card className="hover:shadow-lg transition-shadow duration-200 bg-white border-0 shadow-sm">
+                    <Card className="hover:shadow-lg transition-shadow duration-200 bg-zinc-900/80 border-zinc-700/60 shadow-xl">
                         <CardHeader>
                             <div className="flex items-center gap-3">
                                 <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
                                     <Home className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <CardTitle className="text-lg font-semibold text-gray-900">Ubicación</CardTitle>
-                                    <CardDescription className="text-sm text-gray-500">Tus coordenadas geográficas</CardDescription>
+                                    <CardTitle className="text-lg font-semibold text-white">Ubicación</CardTitle>
+                                    <CardDescription className="text-sm text-zinc-400">Tus coordenadas geográficas</CardDescription>
                                 </div>
                             </div>
-                            <div className="bg-blue-50 rounded-lg p-3 mt-4">
+                            <div className="bg-blue-900/30 rounded-lg p-3 mt-4">
                                 <p className="text-sm text-blue-700">
                                     Modificá tus datos personales y guarda los cambios para actualizar tu dirección.
                                 </p>
@@ -456,44 +460,44 @@ const DashboardUi = memo(() => {
                     </Card>
 
                     {/* Estado de la cuenta */}
-                    <Card className="hover:shadow-lg transition-shadow duration-200 bg-white border-0 shadow-sm">
+                    <Card className="hover:shadow-lg transition-shadow duration-200 bg-zinc-900/80 border-zinc-700/60 shadow-xl">
                         <CardHeader className="pb-4">
                             <div className="flex items-center gap-3">
                                 <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
                                     <ClipboardCheckIcon className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <CardTitle className="text-lg font-semibold text-gray-900">Estado de la cuenta</CardTitle>
-                                    <CardDescription className="text-sm text-gray-500">Información sobre tu cuenta</CardDescription>
+                                    <CardTitle className="text-lg font-semibold text-white">Estado de la cuenta</CardTitle>
+                                    <CardDescription className="text-sm text-zinc-400">Información sobre tu cuenta</CardDescription>
                                 </div>
                             </div>
                         </CardHeader>
                         <CardContent className="pt-0 space-y-6">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="text-center p-3 bg-gray-50 rounded-lg">
-                                    <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">Estado de membresía</div>
+                                    <div className="text-xs text-zinc-400 uppercase tracking-wide font-medium mb-1">Estado de membresía</div>
                                     <Badge
-                                        className={technician.membershipActive ? "bg-green-100 text-green-700 border-green-200" : "bg-red-100 text-red-700 border-red-200"}
+                                        className={technician.membershipActive ? "bg-green-100 text-green-700 border-green-800/50" : "bg-red-100 text-red-700 border-red-200"}
                                     >
                                         {technician.membershipActive ? "Activa" : "Inactiva"}
                                     </Badge>
                                 </div>
                                 <div className="text-center p-3 bg-gray-50 rounded-lg">
-                                    <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">ID de técnico</div>
-                                    <div className="text-lg font-bold text-gray-900">{technician.id}</div>
+                                    <div className="text-xs text-zinc-400 uppercase tracking-wide font-medium mb-1">ID de técnico</div>
+                                    <div className="text-lg font-bold text-white">{technician.id}</div>
                                 </div>
                             </div>
 
                             <div className="bg-gray-50 rounded-lg p-4">
-                                <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">Nombre de usuario</div>
-                                <div className="text-sm font-medium text-gray-900">{technician.username}</div>
+                                <div className="text-xs text-zinc-400 uppercase tracking-wide font-medium mb-1">Nombre de usuario</div>
+                                <div className="text-sm font-medium text-white">{technician.username}</div>
                             </div>
 
                             <div className="bg-gray-50 rounded-lg p-4">
-                                <div className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-2">Calificación</div>
+                                <div className="text-xs text-zinc-400 uppercase tracking-wide font-medium mb-2">Calificación</div>
                                 <div className="flex items-center gap-2">
                                     <Rating name="size-medium" readOnly value={+technician.averageRating} size="small" />
-                                    <span className="text-sm text-gray-600">({Number(technician.averageRating).toFixed(1)}/5)</span>
+                                    <span className="text-sm text-zinc-400">({Number(technician.averageRating).toFixed(1)}/5)</span>
                                 </div>
                             </div>
 
@@ -506,7 +510,7 @@ const DashboardUi = memo(() => {
                                 </Button>
                                 <Button
                                     variant="outline"
-                                    className="w-full hover:cursor-pointer border-gray-300 text-gray-700 hover:bg-gray-50 h-11">
+                                    className="w-full hover:cursor-pointer border-zinc-600 text-zinc-300 hover:bg-zinc-700 h-11">
                                     <Edit className="w-4 h-4 mr-2" />
                                     Cambiar contraseña
                                 </Button>

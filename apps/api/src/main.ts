@@ -71,10 +71,10 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpErrorFilter());
 
   const config = new DocumentBuilder()
-    .setTitle('Servyfix API')
-    .setDescription('The Servyfix API description')
+    .setTitle('TuTecnico API')
+    .setDescription('TuTecnico API documentation')
     .setVersion('1.0')
-    .addTag('Servyfix')
+    .addTag('TuTecnico')
     .addBearerAuth()
     .build();
   SwaggerModule.setup('api', app, () => SwaggerModule.createDocument(app, config));

@@ -1,4 +1,4 @@
-# ServyFix Frontend - AI Coding Instructions
+# TuTecnico Frontend - AI Coding Instructions
 
 ## Project Overview
 React + TypeScript frontend for a technician finder platform in Uruguay. Connects users with technical service providers through geolocation, bookings, and a membership system.

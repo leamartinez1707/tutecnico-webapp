@@ -1,5 +1,5 @@
 /**
- * Configuración de contacto para ServyFix *
+ * Configuración de contacto para TuTecnico *
  */
 
 import { appInfo } from "@/const/appInfo";

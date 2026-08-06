@@ -51,7 +51,7 @@ export default defineConfig({
         ],
       },
       manifest: {
-        name: 'ServyFix - Encuentra Técnicos Profesionales',
+        name: 'TuTecnico - Encuentra Técnicos Profesionales',
         short_name: 'ServyFix',
         description: 'Conecta con técnicos expertos cerca de ti. Servicios de reparación y mantenimiento confiables en Uruguay. Expandí tu negocio como técnico profesional.',
         theme_color: '#2563eb',

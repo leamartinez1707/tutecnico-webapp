@@ -130,6 +130,7 @@ export type Technicians = {
     membershipStartedAt: string;
     membershipExpiresAt: string;
     averageRating: number;
+    createdAt: string;
 }
 
 export type Technician = {

@@ -207,7 +207,7 @@ export default function ContactForm() {
                                             {...field}
                                         />
                                     </FormControl>
-                                    <FormDescription>
+                                    <FormDescription className="text-white">
                                         Incluye detalles relevantes como mensajes de error, información del dispositivo o cuando sucedió el problema.
                                     </FormDescription>
                                     <FormMessage />

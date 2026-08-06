@@ -21,7 +21,7 @@ export function Footer() {
                     >
                         <img
                             style={{ filter: "invert(1) brightness(2)" }}
-                            loading="lazy" src="/logo_servyfix.svg" alt="ServyFix Logo" className="w-40 mb-4" />
+                            loading="lazy" src="/logo_servyfix.svg" alt="TuTecnico Logo" className="w-40 mb-4" />
                         <p className="text-zinc-400 mb-6">
                             Conectando técnicos profesionales con clientes en todo Uruguay.
                         </p>

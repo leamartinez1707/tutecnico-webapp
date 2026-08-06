@@ -66,9 +66,14 @@ const technicianRoutes = [
 ];
 
 const Router: FC = () => {
-    const { isAuthenticated, user } = useAuth();
+    const { isAuthenticated, user, isLoading } = useAuth();
 
     const location = useLocation();
+
+    // Esperar a que el auth check termine antes de decidir rutas
+    if (isLoading) {
+        return <div className="min-h-screen bg-black flex items-center justify-center"><div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" /></div>;
+    }
 
     // Evita redirigir en rutas privadas como /panel
     const isOnPublicPage = location.pathname === '/login' || location.pathname === '/register';

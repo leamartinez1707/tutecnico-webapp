@@ -42,6 +42,7 @@ export const getMyDataRequest = async () => {
         if (isAxiosError(error) && error.message) {
             throw new Error(error.message);
         }
+        throw error;
     }
 }
 
