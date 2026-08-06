@@ -182,7 +182,7 @@ export function TechnicianDetail() {
                                                 </div>
                                                 <div className="flex items-center gap-1">
                                                     <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                                                    <span className="text-white">{rating > 0 ? rating : 'Sin reseñas'}</span>
+                                                    <span className="text-white">{rating > 0 ? rating.toFixed(1) : 'Sin reseñas'}</span>
                                                     {reviews.length > 0 && <span>({reviews.length} {reviews.length === 1 ? 'reseña' : 'reseñas'})</span>}
                                                 </div>
                                             </div>
@@ -272,7 +272,7 @@ export function TechnicianDetail() {
                                 {reviewCount > 0 && (
                                     <div className="flex items-center gap-2">
                                         <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                                        <span className="text-xl text-white">{rating > 0 ? rating : '—'}</span>
+                                        <span className="text-xl text-white">{rating > 0 ? rating.toFixed(1) : '—'}</span>
                                         <span className="text-zinc-400">({reviewCount})</span>
                                     </div>
                                 )}

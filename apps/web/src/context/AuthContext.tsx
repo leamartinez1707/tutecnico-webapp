@@ -63,8 +63,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 setErrors(["Error de autenticación, verifique sus credenciales"]);
                 return false;
             }
-            Cookies.set("access_token", data.access_token);
-            Cookies.set("refresh_token", data.refresh_token);
+            Cookies.set("access_token", data.access_token, { secure: true, sameSite: 'Lax', expires: 7 });
+            Cookies.set("refresh_token", data.refresh_token, { secure: true, sameSite: 'Lax', expires: 30 });
             setUser(data.user);
             setIsAuthenticated(true);
             setErrors([]); // Limpiar errores al iniciar sesión correctamente

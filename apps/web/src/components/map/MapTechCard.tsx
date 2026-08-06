@@ -61,7 +61,7 @@ const MapTechCard = ({ tech, setAddBookingModal }: Props) => {
                                     clipRule="evenodd"
                                 ></path>
                             </svg>
-                            <span className="font-medium">{tech.averageRating != null ? Math.round(Number(tech.averageRating)) : 'Sin reseñas'}</span>
+                            <span className="font-medium">{tech.averageRating != null ? Number(tech.averageRating).toFixed(1) : 'Sin reseñas'}</span>
                         </p>
                     </div>
 
